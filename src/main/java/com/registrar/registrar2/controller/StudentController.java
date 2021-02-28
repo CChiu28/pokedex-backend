@@ -14,14 +14,18 @@ public class StudentController {
 	@Autowired
 	private StudentRepository studentRepository;
 	
-	@GetMapping("/student")
-	public List<Student> getStudent(Student student) {
+	@GetMapping("/liststudent")
+	public List<Student> getStudent() {
 		return studentRepository.findAll();
 	}
 	
-	@PostMapping("/student")
+	@PostMapping("/savestudent")
 	public Student addStudent(Student student) {
 		return studentRepository.save(student);
 	}
 	
+	@RequestMapping("/studenttest")
+	public String test() {
+		return "test";
+	}
 }

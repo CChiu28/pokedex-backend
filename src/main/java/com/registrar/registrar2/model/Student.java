@@ -12,9 +12,13 @@ public class Student {
 	@Id
 	@GeneratedValue
 //	private Long dbid;
-	private int id;
+	private int id=0;
 	private String fname;
 	private String lname;
+	
+	public Student() {
+		
+	}
 	
 	public Student(int id, String fname, String lname) {
 		this.id = id;
