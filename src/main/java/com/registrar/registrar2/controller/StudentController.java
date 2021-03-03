@@ -1,31 +1,50 @@
 package com.registrar.registrar2.controller;
 
+import java.io.Console;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.registrar.registrar2.model.Student;
-import com.registrar.registrar2.repository.StudentRepository;
+//import com.registrar.registrar2.repository.StudentRepository;
+import com.registrar.registrar2.service.RegistrarService;
 
 @RestController
 public class StudentController {
 	
 	@Autowired
-	private StudentRepository studentRepository;
+	private RegistrarService registrarService; 
+//	private StudentRepository studentRepository;
 	
-	@GetMapping("/liststudent")
+	@GetMapping("/students")
 	public List<Student> getStudent() {
-		return studentRepository.findAll();
+		return registrarService.getAllStudents();
 	}
 	
-	@PostMapping("/savestudent")
-	public Student addStudent(Student student) {
-		return studentRepository.save(student);
+	@PostMapping("/students")
+	public void addStudent(@RequestBody Student student) {
+		registrarService.addStudent(student);
+		System.out.println(student);
 	}
 	
-	@RequestMapping("/studenttest")
+	@GetMapping("/students/{id}")
+	public Student getStudent(@PathVariable String id) {
+		return registrarService.findStudent(id);
+	}
+	
+	@GetMapping("/studenttest")
 	public String test() {
 		return "test";
+	}
+	
+	@PutMapping("/students/{id}")
+	public void updateStudent(@RequestBody Student student, @PathVariable String id, String fname, String lname) {
+		registrarService.updateStudent(student, id, fname, lname);
+	}
+	
+	@DeleteMapping("/students/{id}")
+	public void delStudent(@PathVariable String id) {
+		registrarService.delStudent(id);
 	}
 }

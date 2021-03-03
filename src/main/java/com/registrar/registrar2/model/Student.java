@@ -2,17 +2,17 @@ package com.registrar.registrar2.model;
 
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+//import javax.persistence.Entity;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.Id;
 
-@Entity
+//@Entity
 public class Student {
 	
-	@Id
-	@GeneratedValue
+//	@Id
+//	@GeneratedValue
 //	private Long dbid;
-	private int id=0;
+	private String id;
 	private String fname;
 	private String lname;
 	
@@ -20,17 +20,17 @@ public class Student {
 		
 	}
 	
-	public Student(int id, String fname, String lname) {
+	public Student(String id, String fname, String lname) {
 		this.id = id;
 		this.fname = fname;
 		this.lname = lname;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return this.id;
 	}
 	
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
