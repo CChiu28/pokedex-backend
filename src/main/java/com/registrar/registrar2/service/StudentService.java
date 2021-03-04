@@ -9,7 +9,7 @@ import com.registrar.registrar2.model.Student;
 import com.registrar.registrar2.repository.StudentRepository;
 
 @Service
-public class RegistrarService {
+public class StudentService {
 	@Autowired
 	private StudentRepository studentRepository;
 	
@@ -27,7 +27,7 @@ public class RegistrarService {
 		studentRepository.save(student);
 	}
 	
-	public void updateStudent(Student stud, String id, String fname, String lname) {
+	public void updateStudent(Student stud) {
 		studentRepository.save(stud);
 	}
 
