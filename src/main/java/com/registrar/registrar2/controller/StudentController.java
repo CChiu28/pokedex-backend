@@ -33,11 +33,6 @@ public class StudentController {
 		return registrarService.findStudent(id);
 	}
 	
-	@GetMapping("/studenttest")
-	public String test() {
-		return "test";
-	}
-	
 	@PutMapping("/students/{id}")
 	public void updateStudent(@RequestBody Student student, @PathVariable String id, String fname, String lname) {
 		registrarService.updateStudent(student, id, fname, lname);

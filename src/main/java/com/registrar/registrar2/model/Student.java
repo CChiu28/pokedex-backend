@@ -2,14 +2,14 @@ package com.registrar.registrar2.model;
 
 import java.util.Objects;
 
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class Student {
 	
-//	@Id
+	@Id
 //	@GeneratedValue
 //	private Long dbid;
 	private String id;
