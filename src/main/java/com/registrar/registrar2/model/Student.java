@@ -6,18 +6,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.SequenceGenerator;
+import static javax.persistence.GenerationType.SEQUENCE;
 
-@Entity
-@Table(name = "Student")
+@Entity(name = "Student")
+@Table(name = "student")
 public class Student {
-	
+
 	@Id
-//	@GeneratedValue
-//	private Long dbid;
+	@SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
+	@GeneratedValue(strategy = SEQUENCE, generator = "student_sequence")
+	@Column(name = "dbid", updatable = false)
+	private Long dbId;
+	@Column(name = "id", unique = true, nullable = false)
 	private String id;
-	private String fname;
-	private String lname;
+	@Column(name = "fname", nullable = false, columnDefinition = "TEXT")
+	private String firstName;
+	@Column(name = "lname", nullable = false, columnDefinition = "TEXT")
+	private String lastName;
+	@Column(name = "user_name", columnDefinition = "TEXT")
 	private String userName;
+	@Column(name = "password", columnDefinition = "TEXT")
 	private String password;
 	private boolean active;
 	private String roles;
@@ -26,10 +36,10 @@ public class Student {
 		
 	}
 	
-	public Student(String id, String fname, String lname) {
+	public Student(String id, String fName, String lName) {
 		this.id = id;
-		this.fname = fname;
-		this.lname = lname;
+		this.firstName = fName;
+		this.lastName = lName;
 	}
 	
 	public String getId() {
@@ -40,26 +50,34 @@ public class Student {
 		this.id = id;
 	}
 	
-	public String getFname() {
-		return this.fname;
+	public String getFirstName() {
+		return this.firstName;
 	}
 	
-	public void setFname(String fname) {
-		this.fname = fname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	
-	public String getLname() {
-		return this.lname;
+	public String getLastName() {
+		return this.lastName;
 	}
 	
-	public void setLname(String lname) {
-		this.lname = lname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Long getDbId() {
+		return this.dbId;
+	}
+
+	public void setDbId(Long dbId) {
+		this.dbId = dbId;
 	}
 	
 	@Override
 	public String toString() {
 		return "Student{" +
-			"id="+id+", fname='"+fname + '\''+", lname='"+lname+'\''+'}';
+			"id="+id+", firstName='"+ firstName + '\''+", lastName='"+ lastName +'\''+'}';
 	}
 	
 	@Override
@@ -68,13 +86,13 @@ public class Student {
 		if (o==null || getClass()!=o.getClass()) return false;
 		Student student = (Student) o;
 		return Objects.equals(id, student.id) &&
-			Objects.equals(fname, student.fname) &&
-			Objects.equals(lname, student.lname);
+			Objects.equals(firstName, student.firstName) &&
+			Objects.equals(lastName, student.lastName);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, fname, lname);
+		return Objects.hash(id, firstName, lastName);
 	}
 
 	public String getUserName() {
