@@ -1,10 +1,9 @@
 package com.registrar.registrar2.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Table(name="courses")
 public class Courses {
 
 	@Id

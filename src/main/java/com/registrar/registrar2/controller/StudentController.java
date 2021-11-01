@@ -1,21 +1,16 @@
 package com.registrar.registrar2.controller;
 
-import java.io.Console;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import com.registrar.registrar2.model.Student;
-//import com.registrar.registrar2.repository.StudentRepository;
 import com.registrar.registrar2.service.StudentService;
 
 @RestController
+@AllArgsConstructor
 public class StudentController {
-	
-	@Autowired
-	private StudentService studentService; 
-//	private StudentRepository studentRepository;
+
+	private StudentService studentService;
 	
 	@GetMapping("/students")
 	public List<Student> getStudent() {
@@ -29,7 +24,7 @@ public class StudentController {
 	}
 	
 	@GetMapping("/students/{id}")
-	public Student getStudent(@PathVariable String id) {
+	public Student getStudent(@PathVariable int id) {
 		return studentService.findStudent(id);
 	}
 	
@@ -39,7 +34,7 @@ public class StudentController {
 	}
 	
 	@DeleteMapping("/students/{id}")
-	public void delStudent(@PathVariable String id) {
+	public void delStudent(@PathVariable int id) {
 		studentService.delStudent(id);
 	}
 }

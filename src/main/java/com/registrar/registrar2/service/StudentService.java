@@ -1,16 +1,13 @@
 package com.registrar.registrar2.service;
 
 import java.util.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.registrar.registrar2.model.Student;
 import com.registrar.registrar2.repository.StudentRepository;
 
 @Service
 public class StudentService {
-	@Autowired
+
 	private StudentRepository studentRepository;
 	
 	public List<Student> getAllStudents() {
@@ -19,7 +16,7 @@ public class StudentService {
 		return listStudent;
 	}
 	
-	public Student findStudent(String id) {
+	public Student findStudent(int id) {
 		return studentRepository.findById(id).orElse(null);
 	}
 	
@@ -31,7 +28,7 @@ public class StudentService {
 		studentRepository.save(stud);
 	}
 
-	public void delStudent(String id) {
+	public void delStudent(int id) {
 		studentRepository.deleteById(id);
 	}
 }

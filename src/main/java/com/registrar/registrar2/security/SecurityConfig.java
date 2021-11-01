@@ -1,29 +1,30 @@
 package com.registrar.registrar2.security;
 
 import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.registrar.registrar2.service.AppUserService;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.registrar.registrar2.service.MyUserDetailsService;
-
+@Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	@Autowired
+
 	DataSource ds;
-	@Autowired
-	MyUserDetailsService userDetailService;
-	
+	private final AppUserService userDetailService;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailService);
+		auth.authenticationProvider(daoAuthenticationProvider());
+//		auth.userDetailsService(userDetailService);
 //		auth.jdbcAuthentication()
 //			.dataSource(ds)
 //			.withUser(
@@ -37,16 +38,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //						.roles("ADMIN")
 //			);
 	}
-	
-	@Bean
-	public PasswordEncoder getPasswordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
-	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.antMatchers("/**").hasRole("ADMIN")
+		http.csrf().disable().authorizeRequests()
+//			.antMatchers("/**").hasRole("ADMIN")
+				.antMatchers("/register").permitAll().anyRequest().authenticated()
 			.and().formLogin();
+	}
+
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setPasswordEncoder(bCryptPasswordEncoder);
+		provider.setUserDetailsService(userDetailService);
+		return provider;
 	}
 }
