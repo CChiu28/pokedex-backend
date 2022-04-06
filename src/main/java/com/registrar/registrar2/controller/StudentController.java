@@ -23,9 +23,9 @@ public class StudentController {
 		System.out.println(student);
 	}
 	
-	@GetMapping("/students/{id}")
-	public Student getStudent(@PathVariable int id) {
-		return studentService.findStudent(id);
+	@GetMapping("/students/{userName}")
+	public Student getStudent(@PathVariable String userName) {
+		return studentService.findStudent(userName);
 	}
 	
 	@PutMapping("/students/{id}")
@@ -33,8 +33,8 @@ public class StudentController {
 		studentService.updateStudent(student);
 	}
 	
-	@DeleteMapping("/students/{id}")
-	public void delStudent(@PathVariable int id) {
-		studentService.delStudent(id);
+	@DeleteMapping("/students/{userName}")
+	public void delStudent(@PathVariable String userName) {
+		studentService.delStudent(userName);
 	}
 }

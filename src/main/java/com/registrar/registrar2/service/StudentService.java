@@ -1,11 +1,14 @@
 package com.registrar.registrar2.service;
 
 import java.util.*;
+
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.registrar.registrar2.model.Student;
 import com.registrar.registrar2.repository.StudentRepository;
 
 @Service
+@AllArgsConstructor
 public class StudentService {
 
 	private StudentRepository studentRepository;
@@ -16,8 +19,8 @@ public class StudentService {
 		return listStudent;
 	}
 	
-	public Student findStudent(int id) {
-		return studentRepository.findById(id).orElse(null);
+	public Student findStudent(String userName) {
+		return studentRepository.findByUserName(userName).orElseThrow(() -> new StudentNotFoundException(userName));
 	}
 	
 	public void addStudent(Student student) {
@@ -28,7 +31,7 @@ public class StudentService {
 		studentRepository.save(stud);
 	}
 
-	public void delStudent(int id) {
-		studentRepository.deleteById(id);
+	public void delStudent(String userName) {
+		studentRepository.deleteByUserName(userName);
 	}
 }

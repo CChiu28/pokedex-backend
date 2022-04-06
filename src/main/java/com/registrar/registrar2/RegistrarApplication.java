@@ -1,6 +1,5 @@
 package com.registrar.registrar2;
 
-import com.registrar.registrar2.model.Student;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
