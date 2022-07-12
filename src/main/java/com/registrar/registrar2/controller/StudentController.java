@@ -7,6 +7,7 @@ import com.registrar.registrar2.model.Student;
 import com.registrar.registrar2.service.StudentService;
 
 @RestController
+//@RequestMapping(path="/students")
 @AllArgsConstructor
 public class StudentController {
 

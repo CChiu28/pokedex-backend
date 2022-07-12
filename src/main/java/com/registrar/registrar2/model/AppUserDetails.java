@@ -21,6 +21,7 @@ public class AppUserDetails implements org.springframework.security.core.userdet
 		this.userName = stud.getUserName();
 		this.password = stud.getPassword();
 		this.active = stud.isActive();
+		this.userRole = stud.getRoles();
 //		this.authorities = Arrays.stream((stud).getRoles().split(","))
 //				.map(SimpleGrantedAuthority::new)
 //				.collect(Collectors.toList());

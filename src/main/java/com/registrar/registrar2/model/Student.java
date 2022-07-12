@@ -29,7 +29,7 @@ public class Student {
 	private String userName;
 	@Column(name = "password", columnDefinition = "TEXT")
 	private String password;
-	private boolean active;
+	private boolean active = true;
 	@Enumerated(EnumType.STRING)
 	private UserRoles roles;
 
