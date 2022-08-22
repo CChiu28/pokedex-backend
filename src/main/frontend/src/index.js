@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Form from './Components/Form';
+// import Form from './Components/Form';
 
 // const inputs = [{
 //   name: "username",
@@ -30,11 +30,11 @@ import Form from './Components/Form';
 //   <Form {...props} error={params.get('error')} />, document.getElementById('container')
 // )
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+ReactDOM.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>, document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
