@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React, {Component} from "react";
+import Search from './Components/search';
 
 // function App() {
 //   return (
@@ -24,17 +25,30 @@ import React, {Component} from "react";
 // }
 
 class App extends Component {
-  state = { students: [] };
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+  state = {
+    students: [],
+    pokeData: {}
+  };
+
   async componentDidMount() {
     const response = await fetch('/students');
     const body = await response.json();
     this.setState({students: body});
+  }
+  onSubmit(data) {
+    this.setState({pokeData: data});
+    console.log(this.state.pokeData);
   }
   render() {
     const {students} = this.state;
     return (
       <div className="App">
         <header className="App-header">
+          <Search onSubmitted={this.onSubmit}/>
           <div className="App-intro">
             <h2>Students</h2>
             {students.map(student=>
