@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React, {Component} from "react";
 import Search from './Components/search';
+import MainInfo from './Components/MainInfo';
 
 // function App() {
 //   return (
@@ -31,7 +32,7 @@ class App extends Component {
   }
   state = {
     students: [],
-    pokeData: {}
+    pokeData: null
   };
 
   // async componentDidMount() {
@@ -50,16 +51,11 @@ class App extends Component {
     const {students} = this.state;
     return (
       <div className="container">
-        <div className="App-header">
+        <div>
           <Search onSubmitted={this.onSubmit}/>
-          {/* <div className="App-intro">
-            <h2>Students</h2>
-            {students.map(student=>
-              <div key={student.id}>
-                {student.userName}: {student.firstName} {student.lastName}
-                </div>
-            )}
-          </div> */}
+        </div>
+        <div>
+          {this.state.pokeData && <MainInfo pokeData={this.state.pokeData}/> }
         </div>
       </div>
     );
@@ -68,3 +64,12 @@ class App extends Component {
 
 
 export default App;
+
+  {/* <div className="App-intro">
+            <h2>Students</h2>
+            {students.map(student=>
+              <div key={student.id}>
+                {student.userName}: {student.firstName} {student.lastName}
+                </div>
+            )}
+          </div> */}

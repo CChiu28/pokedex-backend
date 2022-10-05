@@ -9,7 +9,8 @@ export default function Search(props) {
 
 	async function getData(search) {
 		try {
-			return await pokeDex.getPokemonByName(search);
+			let poke = await pokeDex.getPokemonByName(search);
+			return poke;
 		} catch (err) {
 			console.log('bad',err);
 		}
@@ -23,6 +24,7 @@ export default function Search(props) {
 		e.preventDefault();
 		console.log(input)
 		let response = await getData(input);
+		console.log(response);
 		props.onSubmitted(response);
 	}
 
