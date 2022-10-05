@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
+import Pokedex from "pokedex-promise-v2";
 
 export default function Search(props) {
 
-	const[input,setInput] = useState('');
-	const[data,setData] = useState({});
+	const [input,setInput] = useState('');
+	// const [data,setData] = useState({}); 
+	const pokeDex = new Pokedex();
 
 	// useEffect(() => {
 	// 	console.log(data);
 	// },[data])
 	async function getData(search) {
-		const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${search}`);
-		let data = response.json();
-		return data;
+		const response = await pokeDex.getPokemonByName(search);
+		// let data = response.json();
+		return response;
 	}
 
 	function handleChange(e) {
