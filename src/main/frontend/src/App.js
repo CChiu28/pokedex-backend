@@ -34,30 +34,33 @@ class App extends Component {
     pokeData: {}
   };
 
-  async componentDidMount() {
-    const response = await fetch('/students');
-    const body = await response.json();
-    this.setState({students: body});
+  // async componentDidMount() {
+  //   const response = await fetch('/students');
+  //   const body = await response.json();
+  //   this.setState({students: body});
+  // }
+  componentDidUpdate() {
+    console.log(this.state.pokeData);
   }
+
   onSubmit(data) {
     this.setState({pokeData: data});
-    console.log(this.state.pokeData);
   }
   render() {
     const {students} = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
+      <div className="container">
+        <div className="App-header">
           <Search onSubmitted={this.onSubmit}/>
-          <div className="App-intro">
+          {/* <div className="App-intro">
             <h2>Students</h2>
             {students.map(student=>
               <div key={student.id}>
                 {student.userName}: {student.firstName} {student.lastName}
                 </div>
             )}
-          </div>
-        </header>
+          </div> */}
+        </div>
       </div>
     );
   }
