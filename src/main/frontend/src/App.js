@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React, {Component} from "react";
+import Pokedex from 'pokedex-promise-v2';
 import Search from './Components/search';
 import MainInfo from './Components/MainInfo';
 
@@ -32,17 +33,21 @@ class App extends Component {
   }
   state = {
     students: [],
-    pokeData: null
+    pokeData: null,
+    versions: null
   };
+
 
   // async componentDidMount() {
   //   const response = await fetch('/students');
   //   const body = await response.json();
   //   this.setState({students: body});
   // }
-  componentDidUpdate() {
-    console.log(this.state.pokeData);
-  }
+  // async componentDidMount() {
+  //   const pokedex = new Pokedex();
+  //   const ver = await pokedex.getVersionGroupsList()
+  //   this.setState({versions: ver});
+  // }
 
   onSubmit(data) {
     this.setState({pokeData: data});
@@ -55,7 +60,9 @@ class App extends Component {
           <Search onSubmitted={this.onSubmit}/>
         </div>
         <div>
-          {this.state.pokeData && <MainInfo pokeData={this.state.pokeData}/> }
+          {this.state.pokeData && <MainInfo pokeData={this.state.pokeData} />}
+        </div>
+        <div>
         </div>
       </div>
     );
