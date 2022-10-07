@@ -23,6 +23,8 @@ export default function MovesList(props) {
 			console.log(genRef.current)
 			versions.current = getVersionsFromGeneration(genRef.current);
 			console.log(versions)
+			allMoveData.current = await pokeDex.getMovesList();
+			console.log(allMoveData)
 		}
 		getData();
 	},[])
@@ -45,8 +47,29 @@ export default function MovesList(props) {
 	function displayVersions(version) {
 		// let version = vers;
 		console.log(moveData);
+		getMovesForVersion()
 		return version.map((ver) =>
 			<th key={ver.name}>{ver.name}</th>)
+	}
+
+	function getMovesForVersion() {
+		versions.current.forEach(ver => {
+			console.log(ver)
+			const data = moveData.filter(move => {
+				return move.version_group_details.find(ele => ele.version_group.name === ver.name)
+			})
+			console.log(data);
+			getMovesByLevel(data,ver.name);
+		})
+	}
+	function getMovesByLevel(moves,name) {
+		const data = moves.filter(move => {
+			return move.version_group_details.find(ele =>
+				{ return(ele.version_group.name === name && ele.move_learn_method.name === 'level-up') }
+					
+			)
+		})
+		console.log(data)
 	}
 
 	return(
