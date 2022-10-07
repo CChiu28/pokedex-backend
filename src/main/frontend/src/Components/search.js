@@ -10,8 +10,8 @@ export default function Search(props) {
 	async function getData(search) {
 		try {
 			let poke = await pokeDex.getPokemonByName(search);
-			console.log(await pokeDex.getMovesList());
-			console.log(await pokeDex.getGenerationsList());
+			// console.log(await pokeDex.getMovesList());
+			// console.log(await pokeDex.getGenerationsList());
 			return poke;
 		} catch (err) {
 			console.log('bad',err);

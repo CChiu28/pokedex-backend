@@ -36,7 +36,7 @@ export default function MovesPane(props) {
 			const ver = await pokeDex.getVersionGroupsList();
 			const allMoves = await pokeDex.getMovesList();
 			const gen = await pokeDex.getGenerationsList();
-			console.log(gen);
+			// console.log(gen);
 			setVersion(ver);
 			setMovesList(allMoves);
 			setGeneration(gen);
@@ -57,8 +57,8 @@ export default function MovesPane(props) {
 		// 		)}
 		// 	</tbody>
 		// </Table>
-		<Tabs>
-			<Tab title="Gen I">
+		<Tabs defaultActiveKey="gen1">
+			<Tab eventKey="gen1" title="Gen I">
 				<MovesList moves={moves} gen={generation} tab="generation-i"/>
 			</Tab>
 			<Tab title="Gen II"></Tab>
