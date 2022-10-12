@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Pokedex from "pokedex-promise-v2";
 import { Table, Tab, Tabs } from "react-bootstrap";
-import MovesList from "./MovesList";
+import VersionsList from "./VersionsList";
 
 export default function MovesPane(props) {
 	const moves = props.moves;
@@ -59,7 +59,7 @@ export default function MovesPane(props) {
 		// </Table>
 		<Tabs defaultActiveKey="gen1">
 			<Tab eventKey="gen1" title="Gen I">
-				<MovesList moves={moves} gen={generation} tab="generation-i"/>
+				<VersionsList moves={moves} gen={generation} tab="generation-i"/>
 			</Tab>
 			<Tab title="Gen II"></Tab>
 			<Tab title="Gen III"></Tab>

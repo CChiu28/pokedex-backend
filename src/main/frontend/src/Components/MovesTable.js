@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Table } from "react-bootstrap";
+import MovesList from "./MovesList";
 import Pokedex from "pokedex-promise-v2";
 
 export default function MovesTable(props) {
@@ -8,13 +9,23 @@ export default function MovesTable(props) {
     const pokeDex = new Pokedex();
     const allMoveData = useRef([]);
     const [moves,setMoves] = useState([]);
+    const listOfMoves = getMovesForVersion(version);
+    let lvl = [];
+    let moveInfo = [];
+    sortData();
 
     useEffect(() => {
         (async () => {
             allMoveData.current = await pokeDex.getMovesList();
-            console.log(allMoveData)
+            // console.log(allMoveData)
         })();
+        // setListOfMoves(getMovesForVersion(version));
+        // setMoves(listOfMoves);
     },[])
+
+    // useEffect(() => {
+    //     sortData();
+    // },[listOfMoves])
 
     function getMovesForVersion(version) {
 		// versions.current.forEach(ver => {
@@ -36,36 +47,8 @@ export default function MovesTable(props) {
 		})
 		return data;
 	}
-    // function sortData(list) {
-    //     list.sort((a,b) => {
-    //         let lvla, lvlb;
-    //         a.version_group_details.forEach((ele) => {
-    //             if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
-    //                 lvla = ele.level_learned_at;
-    //         })
-    //         b.version_group_details.forEach((ele) => {
-    //             if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
-    //                 lvlb = ele.level_learned_at;
-    //         })
-    //         if (lvla<=lvlb)
-    //             return -1;
-    //     })
-    //     const lvl = list.map((move) => {
-    //         let lvlat;
-    //         move.version_group_details.forEach((ele) => {
-    //             if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
-    //                 lvlat = ele.level_learned_at;
-    //         })
-    //         return lvlat;
-    //     })
-    //     const getinfo = (async () => await getMoveInfo(list));
-    //     const moveInfo = getinfo().then(res).then(res => {return res});
-    //     return ;
-    // }
-    function displayMoves() {
-        const list = getMovesForVersion(version);
-        // const {lvl, moveInfo}= sortData(list);
-        list.sort((a,b) => {
+    function sortData() {
+        listOfMoves.sort((a,b) => {
             let lvla, lvlb;
             a.version_group_details.forEach((ele) => {
                 if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
@@ -78,7 +61,11 @@ export default function MovesTable(props) {
             if (lvla<=lvlb)
                 return -1;
         })
-        const lvl = list.map((move) => {
+        // console.log(list)
+    }
+
+    function getLvlFromMoves() {
+        const list = listOfMoves.map((move) => {
             let lvlat;
             move.version_group_details.forEach((ele) => {
                 if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
@@ -86,20 +73,27 @@ export default function MovesTable(props) {
             })
             return lvlat;
         })
-        async function callBack(data) {
-            await moveInfo.push(data);
-        }
-        const moveInfo = []
-        getMoveInfo(list,callBack);
-        console.log(list);
+        return list;
+    }
+
+    async function sortDataAndGetInfo() {
+        // sortData();
+        console.log('sorted',listOfMoves);
+        lvl = getLvlFromMoves();
+        moveInfo = await getMoveInfo();
+        console.log('test',moveInfo)
+    }
+    function displayMoves() {
+        sortDataAndGetInfo()
+        // console.log(list);
         console.log(lvl);
-        console.log('moveinfo',moveInfo)
-        return (list.map((move,index) => {
+        console.log('moveinfo',moves)
+        return (listOfMoves.map((move,index) => {
             return(
                 <tr key={move.move.name}>
                     <td>{lvl[index]}</td>
                     <td>{move.move.name}</td>
-                    <td>{moveInfo[index].pp}</td>
+                    <td>{moveInfo[index]}</td>
                     {/* <td>{moveInfo!=null && moveInfo[index].accuracy===null ? 100 : moveInfo[index].accuracy}</td> */}
                 </tr>
             )
@@ -107,12 +101,13 @@ export default function MovesTable(props) {
         )
     }
 
-    async function getMoveInfo(list,cb) {
+    async function getMoveInfo() {
         const arr = [];
-        list.forEach(async (move) => {
+        listOfMoves.forEach(async (move) => {
             let data = await pokeDex.getMoveByName(move.move.name);
-            await cb(data);
+            arr.push(data);
         })
+        console.log('arr',arr)
         return arr;
     }
 
@@ -128,7 +123,8 @@ export default function MovesTable(props) {
                 </tr>
             </thead>
             <tbody>
-                {displayMoves()}
+                {/* {displayMoves()} */}
+                <MovesList moves={listOfMoves} />
             </tbody>
         </Table>
     )
