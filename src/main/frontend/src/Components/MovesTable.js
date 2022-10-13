@@ -64,52 +64,52 @@ export default function MovesTable(props) {
         // console.log(list)
     }
 
-    function getLvlFromMoves() {
-        const list = listOfMoves.map((move) => {
-            let lvlat;
-            move.version_group_details.forEach((ele) => {
-                if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
-                    lvlat = ele.level_learned_at;
-            })
-            return lvlat;
-        })
-        return list;
-    }
+    // function getLvlFromMoves() {
+    //     const list = listOfMoves.map((move) => {
+    //         let lvlat;
+    //         move.version_group_details.forEach((ele) => {
+    //             if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
+    //                 lvlat = ele.level_learned_at;
+    //         })
+    //         return lvlat;
+    //     })
+    //     return list;
+    // }
 
-    async function sortDataAndGetInfo() {
-        // sortData();
-        console.log('sorted',listOfMoves);
-        lvl = getLvlFromMoves();
-        moveInfo = await getMoveInfo();
-        console.log('test',moveInfo)
-    }
-    function displayMoves() {
-        sortDataAndGetInfo()
-        // console.log(list);
-        console.log(lvl);
-        console.log('moveinfo',moves)
-        return (listOfMoves.map((move,index) => {
-            return(
-                <tr key={move.move.name}>
-                    <td>{lvl[index]}</td>
-                    <td>{move.move.name}</td>
-                    <td>{moveInfo[index]}</td>
-                    {/* <td>{moveInfo!=null && moveInfo[index].accuracy===null ? 100 : moveInfo[index].accuracy}</td> */}
-                </tr>
-            )
-            })
-        )
-    }
+    // async function sortDataAndGetInfo() {
+    //     // sortData();
+    //     console.log('sorted',listOfMoves);
+    //     lvl = getLvlFromMoves();
+    //     moveInfo = await getMoveInfo();
+    //     console.log('test',moveInfo)
+    // }
+    // function displayMoves() {
+    //     sortDataAndGetInfo()
+    //     // console.log(list);
+    //     console.log(lvl);
+    //     console.log('moveinfo',moves)
+    //     return (listOfMoves.map((move,index) => {
+    //         return(
+    //             <tr key={move.move.name}>
+    //                 <td>{lvl[index]}</td>
+    //                 <td>{move.move.name}</td>
+    //                 <td>{moveInfo[index]}</td>
+    //                 {/* <td>{moveInfo!=null && moveInfo[index].accuracy===null ? 100 : moveInfo[index].accuracy}</td> */}
+    //             </tr>
+    //         )
+    //         })
+    //     )
+    // }
 
-    async function getMoveInfo() {
-        const arr = [];
-        listOfMoves.forEach(async (move) => {
-            let data = await pokeDex.getMoveByName(move.move.name);
-            arr.push(data);
-        })
-        console.log('arr',arr)
-        return arr;
-    }
+    // async function getMoveInfo() {
+    //     const arr = [];
+    //     listOfMoves.forEach(async (move) => {
+    //         let data = await pokeDex.getMoveByName(move.move.name);
+    //         arr.push(data);
+    //     })
+    //     console.log('arr',arr)
+    //     return arr;
+    // }
 
     return(
         <Table>
@@ -117,15 +117,14 @@ export default function MovesTable(props) {
                 <tr>
                     <th>{version.name}</th>
                     <th>Move</th>
+                    <th>Type</th>
                     <th>PP</th>
                     <th>Accuracy</th>
                     <th>description</th>
                 </tr>
             </thead>
-            <tbody>
                 {/* {displayMoves()} */}
-                <MovesList moves={listOfMoves} />
-            </tbody>
+                <MovesList version={version.name} moves={listOfMoves} />
         </Table>
     )
 }

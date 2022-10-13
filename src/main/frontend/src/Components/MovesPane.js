@@ -57,16 +57,28 @@ export default function MovesPane(props) {
 		// 		)}
 		// 	</tbody>
 		// </Table>
-		<Tabs defaultActiveKey="gen1">
+		<Tabs defaultActiveKey="gen1" fill>
 			<Tab eventKey="gen1" title="Gen I">
 				<VersionsList moves={moves} gen={generation} tab="generation-i"/>
 			</Tab>
-			<Tab title="Gen II"></Tab>
-			<Tab title="Gen III"></Tab>
-			<Tab title="Gen IV"></Tab>
-			<Tab title="Gen V"></Tab>
-			<Tab title="Gen VI"></Tab>
-			<Tab title="Gen VII"></Tab>
+			<Tab eventKey="gen2" title="Gen II">
+				<VersionsList moves={moves} gen={generation} tab="generation-ii"/>
+			</Tab>
+			<Tab eventKey="gen3" title="Gen III">
+				<VersionsList moves={moves} gen={generation} tab="generation-iii"/>
+			</Tab>
+			<Tab eventKey="gen4" title="Gen IV">
+				<VersionsList moves={moves} gen={generation} tab="generation-iv"/>
+			</Tab>
+			<Tab eventKey="gen5" title="Gen V">
+				<VersionsList moves={moves} gen={generation} tab="generation-v"/>
+			</Tab>
+			<Tab eventKey="gen6" title="Gen VI">
+				<VersionsList moves={moves} gen={generation} tab="generation-vi"/>
+			</Tab>
+			<Tab eventKey="gen7" title="Gen VII">
+				<VersionsList moves={moves} gen={generation} tab="generation-vii"/>
+			</Tab>
 		</Tabs>
 	)
 }
