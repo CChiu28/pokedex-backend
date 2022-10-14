@@ -5,7 +5,8 @@ import Pokedex from "pokedex-promise-v2";
 
 export default function VersionsList(props) {
 	const pokeDex = new Pokedex();
-	let moveData = props.moves;
+	const moveData = props.moves;
+	const [moveInfo,setMoveInfo] = useState(null);
 	const genRef = useRef([]);
 	const versions = useRef([]);
 	const allMoveData = useRef([]);
@@ -18,33 +19,31 @@ export default function VersionsList(props) {
 			console.log(versions)
 			// allMoveData.current = await pokeDex.getMovesList();
 			// console.log(allMoveData)
+			getMoveInfo(moveData);
 		}
 		getData();
-	},[])
+	},[props.moves])
 
 	function getVersionsFromGeneration(version) {
 		const { version_groups } = version;
 		return version_groups;
 	}
+
+	async function getMoveInfo(list) {
+        const arr = list.map(move => {
+            return move.move.name;
+        })
+        pokeDex.getMoveByName(arr).then(response => {
+            // console.log(response);
+            setMoveInfo(response);
+        })
+    }
 	
 	function displayVersions(version) {
 		// let version = vers;
-		// console.log(moveData);
+		console.log(moveInfo);
 		return (version.map((ver) =>
-			// <Table key={ver.name}>
-			// 	{ver.name}
-			// 	<thead>
-			// 		<tr>
-			// 			<th>Level</th>
-			// 			<th>Move</th>
-			// 			<th>PP</th>
-			// 			<th>Accuracy</th>
-			// 			<th>Description</th>
-			// 		</tr>
-			// 	</thead>
-			// </Table>
-			// const movesByLevel = getMovesForVersion(ver);
-			<MovesTable key={ver.name} ver={ver} moves={moveData}/>
+			<MovesTable key={ver.name} ver={ver} moves={moveData} moveInfo={moveInfo}/>
 		)
 		)
 	}
@@ -71,20 +70,8 @@ export default function VersionsList(props) {
 	// }
 
 	return(
-		// <Table>
-		// 	<thead>
-		// 		<tr>
-		// 			{versions && displayVersions(versions.current)}
-		// 			<th>Move</th>
-		// 			<th>Power</th>
-		// 			<th>Accuracy</th>
-		// 			<th>PP</th>
-		// 			<th>Description</th>
-		// 		</tr>
-		// 	</thead>
-		// </Table>
 		<div>
-			{versions && displayVersions(versions.current)}
+			{(versions&&moveInfo) && displayVersions(versions.current)}
 		</div>
 	)
 }

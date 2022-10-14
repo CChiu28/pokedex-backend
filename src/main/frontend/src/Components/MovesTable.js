@@ -7,21 +7,24 @@ export default function MovesTable(props) {
     const version = props.ver;
     const moveData = props.moves;
     const pokeDex = new Pokedex();
-    const allMoveData = useRef([]);
-    const [moves,setMoves] = useState([]);
+    const [moves,setMoves] = useState(props.moveInfo);
+    const [lvl,setLvl] = useState([]);
     const listOfMoves = getMovesForVersion(version);
-    let lvl = [];
-    let moveInfo = [];
-    sortData();
+    // let lvl = [];
+    // let moveInfo = [];
+    // sortData();
 
     useEffect(() => {
-        (async () => {
-            allMoveData.current = await pokeDex.getMovesList();
-            // console.log(allMoveData)
-        })();
+        const moveInfo = props.moveInfo;
+        console.log(props.moveInfo)
+        const list = getMovesForVersion(version);
+        sortData(list);
+        getLvlFromMoves(list);
+        // console.log(list, lvl);
+        getMoveInfo(list,moveInfo);
         // setListOfMoves(getMovesForVersion(version));
         // setMoves(listOfMoves);
-    },[])
+    },[props.moveInfo])
 
     // useEffect(() => {
     //     sortData();
@@ -29,7 +32,7 @@ export default function MovesTable(props) {
 
     function getMovesForVersion(version) {
 		// versions.current.forEach(ver => {
-			console.log(version)
+			// console.log(version)
 			const data = moveData.filter(move => {
 				return move.version_group_details.find(ele => ele.version_group.name === version.name)
 			})
@@ -47,8 +50,8 @@ export default function MovesTable(props) {
 		})
 		return data;
 	}
-    function sortData() {
-        listOfMoves.sort((a,b) => {
+    function sortData(list) {
+        list.sort((a,b) => {
             let lvla, lvlb;
             a.version_group_details.forEach((ele) => {
                 if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
@@ -64,17 +67,17 @@ export default function MovesTable(props) {
         // console.log(list)
     }
 
-    // function getLvlFromMoves() {
-    //     const list = listOfMoves.map((move) => {
-    //         let lvlat;
-    //         move.version_group_details.forEach((ele) => {
-    //             if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
-    //                 lvlat = ele.level_learned_at;
-    //         })
-    //         return lvlat;
-    //     })
-    //     return list;
-    // }
+    function getLvlFromMoves(list) {
+        const lvls = list.map((move) => {
+            let lvlat;
+            move.version_group_details.forEach((ele) => {
+                if (ele.version_group.name===version.name&&ele.move_learn_method.name ==='level-up')
+                    lvlat = ele.level_learned_at;
+            })
+            return lvlat;
+        })
+        setLvl(lvls);
+    }
 
     // async function sortDataAndGetInfo() {
     //     // sortData();
@@ -101,15 +104,20 @@ export default function MovesTable(props) {
     //     )
     // }
 
-    // async function getMoveInfo() {
-    //     const arr = [];
-    //     listOfMoves.forEach(async (move) => {
-    //         let data = await pokeDex.getMoveByName(move.move.name);
-    //         arr.push(data);
-    //     })
-    //     console.log('arr',arr)
-    //     return arr;
-    // }
+    function getMoveInfo(list,moveInfo) {
+        // const arr = list.map(move => {
+        //     return move.move.name;
+        // })
+        // pokeDex.getMoveByName(arr).then(response => {
+        //     console.log(response);
+        //     setMoves(response);
+        // })
+        const arr = list.map(move => {
+            return moveInfo.find(ele => ele.name===move.move.name);
+        })
+        setMoves(arr);
+        console.log(list,arr);
+    }
 
     return(
         <Table>
@@ -124,7 +132,7 @@ export default function MovesTable(props) {
                 </tr>
             </thead>
                 {/* {displayMoves()} */}
-                <MovesList version={version.name} moves={listOfMoves} />
+                <MovesList version={version.name} lvl={lvl} moves={moves} />
         </Table>
     )
 }
