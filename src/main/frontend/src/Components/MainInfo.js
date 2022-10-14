@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import MovesPane from "./MovesPane";
+import React from "react";
+import MovesPane from "./PokemonMoves/MovesPane";
 import Stats from "./Stats";
 
 export default function MainInfo(props) {
