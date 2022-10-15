@@ -9,8 +9,18 @@ export default function Search(props) {
 
 	async function getData(search) {
 		try {
-			let poke = await pokeDex.getPokemonByName(search);
-			return poke;
+			// let poke = await pokeDex.getPokemonByName(search);
+			let poke = await fetch(`http://localhost:8080/pokemon/${search}`, {
+				method: "POST",
+				// mode: "no-cors",
+				headers: {
+					"Content-type":"application/json charset=UTF-8",
+					'Accept': 'application/json',
+					'Access-Control-Allow-Origin': '*'
+				}
+			});
+			// console.log(poke.json());
+			return await poke.json();
 		} catch (err) {
 			console.log('bad',err);
 		}

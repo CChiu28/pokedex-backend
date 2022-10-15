@@ -1,12 +1,11 @@
 package com.registrar.registrar2.model.Pokemon;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
 
 @JsonIgnoreProperties(ignoreUnknown = false)
+@Getter
 public class Types {
     private Type type;
-
-    public Type getType() {
-        return this.type;
-    }
+    private int slot;
 }
