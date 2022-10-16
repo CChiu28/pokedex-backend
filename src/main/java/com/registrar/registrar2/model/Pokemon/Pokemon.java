@@ -36,4 +36,16 @@ public class Pokemon {
 //    public Types[] getTypes() {
 //        return this.types;
 //    }
+//
+//    public Moves[] getMoves() {
+//        return this.moves;
+//    }
+//
+//    public Stats[] getStats() {
+//        return this.stats;
+//    }
+//
+//    public Sprites getSprites() {
+//        return this.sprites;
+//    }
 }
