@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class VersionGroupDetails {
     private int level_learned_at;
-    private MoveLearnMethod move_learn_method;
-    private VersionGroup version_group;
+    private Name move_learn_method;
+    private Name version_group;
 }

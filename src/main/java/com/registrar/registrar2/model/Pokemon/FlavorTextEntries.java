@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = false)
-public class Move {
-    private String name;
+public class FlavorTextEntries {
+    private String flavor_text;
+    private Name version_group;
 }

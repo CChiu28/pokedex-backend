@@ -6,6 +6,6 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = false)
 @Getter
 public class Abilities {
-    private Ability ability;
+    private Name ability;
     private int slot;
 }

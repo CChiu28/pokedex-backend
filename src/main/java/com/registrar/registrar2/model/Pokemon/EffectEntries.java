@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = false)
-public class VersionGroup {
-    private String name;
+public class EffectEntries {
+    private String effect;
+    private String short_effect;
 }

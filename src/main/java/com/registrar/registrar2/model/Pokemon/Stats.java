@@ -7,5 +7,5 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = false)
 public class Stats {
     private int base_stat;
-    private Stat stat;
+    private Name stat;
 }

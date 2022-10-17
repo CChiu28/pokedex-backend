@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = false)
-public class MoveLearnMethod {
+public class Name {
     private String name;
 }
