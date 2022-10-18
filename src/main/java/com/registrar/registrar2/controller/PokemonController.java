@@ -19,14 +19,6 @@ public class PokemonController {
     @CrossOrigin()
     @PostMapping("/pokemon/{pokemon}")
     public PokemonData getPokemon(@PathVariable String pokemon) {
-//        this.webClient = WebClient.builder().build();
-//        String url = "https://pokeapi.co/api/v2/pokemon/"+pokemon;
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<Pokemon> response = restTemplate.getForEntity(url, Pokemon.class);
-//        Mono<Pokemon> response = WebClient.create().get().uri(url).retrieve().bodyToMono(Pokemon.class);
-//        response.subscribe(poke -> System.out.println((poke.toString())));
-//        System.out.println(url);
-//        System.out.println(response);
         Pokemon response = pokemonService.getPokemonFromApi(pokemon);
         ArrayList<MoveInfo> moveInfo = pokemonService.getMoveInfo(response.getMoves());
         PokemonData data = new PokemonData(response,moveInfo);

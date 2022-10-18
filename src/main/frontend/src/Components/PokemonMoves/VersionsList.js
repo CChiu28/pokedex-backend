@@ -8,14 +8,15 @@ export default function VersionsList(props) {
 	const moveData = props.moveInfo;
 	// const [moveInfo,setMoveInfo] = useState(null);
 	const genRef = useRef([]);
-	const versions = useRef([]);
+	const [versions,setVersion] = useState();
+
 
 	useEffect(() => {
 		async function getData() {
 			genRef.current = await pokeDex.getGenerationByName(props.tab);
 			console.log(genRef.current)
-			versions.current = getVersionsFromGeneration(genRef.current);
-			console.log(versions)
+			const ver = getVersionsFromGeneration(genRef.current);
+			setVersion(ver);
 		}
 		getData();
 	},[])
@@ -24,19 +25,9 @@ export default function VersionsList(props) {
 		const { version_groups } = version;
 		return version_groups;
 	}
-
-	// async function getMoveInfo(list) {
-    //     const arr = list.map(move => {
-    //         return move.move.name;
-    //     })
-    //     pokeDex.getMoveByName(arr).then(response => {
-    //         // console.log(response);
-    //         setMoveInfo(response);
-    //     })
-    // }
 	
 	function displayVersions(version) {
-		console.log(moveData);
+		// console.log(version,moveData);
 		return (version.map((ver) =>
 			<MovesTable key={ver.name} ver={ver} moves={moves} moveInfo={moveData}/>
 		)
@@ -44,8 +35,8 @@ export default function VersionsList(props) {
 	}
 
 	return(
-		<div>
-			{(versions&&moveData) && displayVersions(versions.current)}
-		</div>
+		<>
+			{(versions&&moveData) && displayVersions(versions)}
+		</>
 	)
 }

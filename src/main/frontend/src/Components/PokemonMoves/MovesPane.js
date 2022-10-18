@@ -6,21 +6,25 @@ import VersionsList from "./VersionsList";
 export default function MovesPane(props) {
 	const pokeDex = new Pokedex();
 	const moves = props.moves;
+	const moveInfo = props.moveInfo;
 	const [movesInfo,setMoveInfo] = useState(null);
 
 	useEffect(() => {
-		getMoveInfo(moves);
+		// getMoveInfo(moves)
+		setMoveInfo(moveInfo);
+		// console.log(moveInfo)
 	},[props.moves])
 
-	async function getMoveInfo(list) {
-        const arr = list.map(move => {
-            return move.move.name;
-        })
-        pokeDex.getMoveByName(arr).then(response => {
-            // console.log(response);
-            setMoveInfo(response);
-        })
-    }
+	// async function getMoveInfo(list) {
+    //     const arr = list.map(move => {
+    //         return move.move.name;
+    //     })
+    //     // pokeDex.getMoveByName(arr).then(response => {
+    //     //     // console.log(response);
+    //     //     setMoveInfo(response);
+    //     // })
+	// 	setMoveInfo(props.moveInfo);
+    // }
 
 	return(
 		<Tabs defaultActiveKey="gen1" fill>

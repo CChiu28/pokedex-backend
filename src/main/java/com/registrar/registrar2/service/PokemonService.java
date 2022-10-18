@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,12 +26,14 @@ public class PokemonService {
 
     public ArrayList<MoveInfo> getMoveInfo(Moves[] moves) {
         RestTemplate restTemplate = new RestTemplate();
+        WebClient webClient = WebClient.create();
         ArrayList<MoveInfo> moveInfo = new ArrayList<>();
         List<Moves> list = Arrays.asList(moves);
         list.stream().map(move -> {
-            String url = "https://pokeapi.co/api/v2/move/"+move.getMove().getName();
-            ResponseEntity<MoveInfo> response = restTemplate.getForEntity(url, MoveInfo.class);
-            return response.getBody();
+            String url = "https://pokeapi.co/api/v2/move/" + move.getMove().getName();
+//            ResponseEntity<MoveInfo> response = restTemplate.getForEntity(url, MoveInfo.class);
+            Mono<MoveInfo> response = webClient.get().uri(url).retrieve().bodyToMono(MoveInfo.class);
+            return response.block();
         }).forEach(moveInfo::add);
         return moveInfo;
     }

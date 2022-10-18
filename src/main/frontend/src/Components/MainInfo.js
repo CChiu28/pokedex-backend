@@ -3,7 +3,8 @@ import MovesPane from "./PokemonMoves/MovesPane";
 import Stats from "./Stats";
 
 export default function MainInfo(props) {
-	const { id, name, abilities, stats, types, moves, sprites } = props.pokeData;
+	const { pokemon, moveInfo } = props.pokeData;
+	const { id, name, abilities, stats, types, moves, sprites } = pokemon;
 
 	return(
 		<div>
@@ -21,7 +22,7 @@ export default function MainInfo(props) {
 				</div>
 				<Stats stats={stats}/>
 			</div>
-			<MovesPane moves={moves} />
+			<MovesPane moves={moves} moveInfo={moveInfo}/>
 		</div>
 	);
 }
