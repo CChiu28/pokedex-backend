@@ -31,10 +31,10 @@ export default function MovesPane(props) {
 			<Tab eventKey="gen1" title="Gen I">
 				<VersionsList moves={moves} moveInfo={movesInfo} tab="generation-i"/>
 			</Tab>
-			{/* <Tab eventKey="gen2" title="Gen II">
+			<Tab eventKey="gen2" title="Gen II">
 				<VersionsList moves={moves} moveInfo={movesInfo} tab="generation-ii"/>
 			</Tab>
-			<Tab eventKey="gen3" title="Gen III">
+			{/* <Tab eventKey="gen3" title="Gen III">
 				<VersionsList moves={moves} moveInfo={movesInfo} tab="generation-iii"/>
 			</Tab>
 			<Tab eventKey="gen4" title="Gen IV">

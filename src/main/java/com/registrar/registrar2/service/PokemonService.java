@@ -1,8 +1,6 @@
 package com.registrar.registrar2.service;
 
-import com.registrar.registrar2.model.Pokemon.MoveInfo;
-import com.registrar.registrar2.model.Pokemon.Moves;
-import com.registrar.registrar2.model.Pokemon.Pokemon;
+import com.registrar.registrar2.model.Pokemon.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +15,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class PokemonService {
+//    @Autowired
+//    private WebClient webClient;
     public Pokemon getPokemonFromApi(String name) {
         String url = "https://pokeapi.co/api/v2/pokemon/"+name;
         RestTemplate restTemplate = new RestTemplate();
@@ -36,5 +36,13 @@ public class PokemonService {
             return response.block();
         }).forEach(moveInfo::add);
         return moveInfo;
+    }
+
+    public Generations getGeneration(String gen) {
+        String url = "https://pokeapi.co/api/v2/generation/"+gen;
+        WebClient webClient = WebClient.create();
+        ArrayList<Generations> Names = new ArrayList<>();
+        Mono<Generations> res = webClient.get().uri(url).retrieve().bodyToMono(Generations.class);
+        return res.block();
     }
 }
