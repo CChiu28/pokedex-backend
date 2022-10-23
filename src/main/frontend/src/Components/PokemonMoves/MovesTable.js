@@ -7,17 +7,28 @@ export default function MovesTable(props) {
     const version = props.ver;
     const moveData = props.moves;
     const pokeDex = new Pokedex();
-    const [moves,setMoves] = useState(props.moveInfo);
+    const [moves,setMoves] = useState([]);
     const [lvl,setLvl] = useState([]);
 
     useEffect(() => {
-        const moveInfo = props.moveInfo;
-        console.log(props.moveInfo)
         const list = getMovesForVersion(version);
         sortData(list);
         getLvlFromMoves(list);
-        getMoveInfo(list,moveInfo);
-    },[props.moveInfo])
+        const stringifyList = JSON.stringify(list);
+        // console.log(stringifyList)
+        fetch(`http://localhost:8080/pokemon/moves`, {
+            method: "POST",
+            headers: {
+                "Content-type":"application/json",
+                'Accept': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: stringifyList
+        })
+        .then(res => { return res.json()})
+        .then(data => setMoves(data));
+        // getMoveInfo(list,moveInfo);
+    },[props.moves])
 
     function getMovesForVersion(version) {
         const data = moveData.filter(move => {

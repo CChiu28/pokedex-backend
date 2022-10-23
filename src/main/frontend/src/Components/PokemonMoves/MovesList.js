@@ -21,10 +21,10 @@ export default function MovesList(props) {
                         <td>{lvl[index]}</td>
                         <td>{move.name}</td>
                         <td>{move.type.name}</td>
-                        <td>{move.power===null ? '--' : move.power}</td>
+                        <td>{move.power===0 ? '--' : move.power}</td>
                         <td>{move.pp}</td>
-                        <td>{move.accuracy===null ? 100 : move.accuracy}</td>
-                        <td>{move.effect_chance===null ? '--' : move.effect_chance}</td>
+                        <td>{move.accuracy===0 ? 100 : move.accuracy}</td>
+                        <td>{move.effect_chance===0 ? '--' : move.effect_chance}</td>
                         <td>{getMoveDesc(move)}</td>
                     </tr>
                 )

@@ -38,11 +38,35 @@ public class PokemonService {
         return moveInfo;
     }
 
-    public Generations getGeneration(String gen) {
-        String url = "https://pokeapi.co/api/v2/generation/"+gen;
+    public Generations getGeneration() {
+//        int[] offsetLimit = getOffsetLimitByGeneration(gen);
+        String url = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=1000";
         WebClient webClient = WebClient.create();
         ArrayList<Generations> Names = new ArrayList<>();
         Mono<Generations> res = webClient.get().uri(url).retrieve().bodyToMono(Generations.class);
         return res.block();
+    }
+
+    private int[] getOffsetLimitByGeneration(String gen) {
+        switch (gen) {
+            case "generation-i":
+                return new int[] {0,151};
+            case "generation-ii":
+                return new int[] {151,100};
+            case "generation-iii":
+                return new int[] {251,135};
+            case "generation-iv":
+                return new int[] {386,107};
+            case "generation-v":
+                return new int[] {493,156};
+            case "generation-vi":
+                return new int[] {649,72};
+            case "generation-vii":
+                return new int[] {721,88};
+            case "generation-viii":
+                return new int[] {809,96};
+            default:
+                return new int[] {0,0};
+        }
     }
 }

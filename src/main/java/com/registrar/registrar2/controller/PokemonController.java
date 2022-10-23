@@ -1,9 +1,6 @@
 package com.registrar.registrar2.controller;
 
-import com.registrar.registrar2.model.Pokemon.Generations;
-import com.registrar.registrar2.model.Pokemon.MoveInfo;
-import com.registrar.registrar2.model.Pokemon.Pokemon;
-import com.registrar.registrar2.model.Pokemon.PokemonData;
+import com.registrar.registrar2.model.Pokemon.*;
 import com.registrar.registrar2.service.PokemonService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +17,23 @@ public class PokemonController {
 
     @CrossOrigin()
     @PostMapping("/pokemon/{pokemon}")
-    public PokemonData getPokemon(@PathVariable String pokemon) {
+    public Pokemon getPokemon(@PathVariable String pokemon) {
         Pokemon response = pokemonService.getPokemonFromApi(pokemon);
-        ArrayList<MoveInfo> moveInfo = pokemonService.getMoveInfo(response.getMoves());
-        PokemonData data = new PokemonData(response,moveInfo);
-        return data;
+//        ArrayList<MoveInfo> moveInfo = pokemonService.getMoveInfo(response.getMoves());
+//        PokemonData data = new PokemonData(response,moveInfo);
+        return response;
     }
 
     @CrossOrigin()
-    @PostMapping("/pokemonGeneration/{generation}")
-    public Generations getGenerationList(@PathVariable String generation) {
-        return pokemonService.getGeneration(generation);
+    @PostMapping("/pokemon/moves")
+    public ArrayList<MoveInfo> getMovesData(@RequestBody Moves[] moves) {
+        ArrayList<MoveInfo> moveInfo = pokemonService.getMoveInfo(moves);
+        return moveInfo;
+    }
+    @CrossOrigin()
+    @GetMapping("/pokemonGeneration")
+    public Generations getGenerationList() {
+        return pokemonService.getGeneration();
     }
     @GetMapping(path = "/test")
     public String test(Principal principal) {

@@ -36,7 +36,7 @@ export default function VersionsList(props) {
 
 	return(
 		<>
-			{(versions&&moveData) && displayVersions(versions)}
+			{(versions) && displayVersions(versions)}
 		</>
 	)
 }
