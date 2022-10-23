@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import PokemonList from "./PokemonList";
+import Team from "./Team";
 
 export default function TeamBuilder(props) {
     const [pokemon,setPokemon] = useState(null);
@@ -14,8 +15,9 @@ export default function TeamBuilder(props) {
 
     return(
         <div>
-            {pokemon && <PokemonList pokemon={pokemon} gen="generation-i"/>}
-            {pokemon && <PokemonList pokemon={pokemon} gen="generation-ii"/>}
+            {/* {pokemon && <PokemonList pokemon={pokemon} gen="generation-i"/>}
+            {pokemon && <PokemonList pokemon={pokemon} gen="generation-ii"/>} */}
+            {pokemon && <Team pokemon={pokemon} />}
         </div>
     )
 }

@@ -7,6 +7,7 @@ export default function PokemonList(props) {
 
     useEffect(() => {
         const pokemon = props.pokemon.results;
+        console.log(pokemon)
         const gen = props.gen;
         const offset = getOffsetLimitByGeneration(gen);
         setList(pokemon.slice(offset[0],offset[1]));
