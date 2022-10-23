@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 
 export default function PokemonList(props) {
@@ -36,12 +36,16 @@ export default function PokemonList(props) {
         }
     }
 
+    const handleClick = useCallback(e => {
+        props.getPokemon(e.target.textContent);
+    },[])
+
     return(
         <>
             <DropdownButton id="dropdown" title={props.gen}>
                 {list.map((poke) => {
                     return (
-                        <Dropdown.Item key={poke.name}>{poke.name}</Dropdown.Item>
+                        <Dropdown.Item key={poke.name} onClick={handleClick}>{poke.name}</Dropdown.Item>
                     )
                 })}
             </DropdownButton>
