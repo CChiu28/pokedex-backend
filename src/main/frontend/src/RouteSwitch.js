@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import TeamBuilder from './Components/TeamBuilder';
 import NavBar from "./Components/Nav";
+import Login from "./Components/Login";
 
 export default function RouteSwitch() {
     
@@ -13,6 +14,7 @@ export default function RouteSwitch() {
             <Routes>
                 <Route path='/' element={<App />} />
                 <Route path='/teambuilder' element={<TeamBuilder />} />
+                <Route path='/login' element={<Login />} />
             </Routes>
         </BrowserRouter>
     )

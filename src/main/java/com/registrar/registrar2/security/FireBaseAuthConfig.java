@@ -14,10 +14,10 @@ import java.io.IOException;
 @Configuration
 public class FireBaseAuthConfig {
     @Value("classpath:service-account.json")
-    Resource serviceAccount;
+    private Resource serviceAccount;
 
     @Bean
-    FirebaseAuth fireBaseAuth() throws IOException {
+    public FirebaseAuth fireBaseAuth() throws IOException {
         FirebaseOptions options = FirebaseOptions.builder().setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream())).build();
         FirebaseApp firebaseApp = FirebaseApp.initializeApp(options);
         return FirebaseAuth.getInstance(firebaseApp);
