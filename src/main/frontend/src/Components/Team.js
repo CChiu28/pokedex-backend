@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import PokemonList from "./PokemonList";
 import TeamPokemon from "./TeamPokemon";
 
@@ -17,6 +17,19 @@ export default function Team(props) {
         } else console.log("Full team");
     }
 
+    function SaveToDatabase() {
+        const list = JSON.stringify(team);
+        fetch('http://localhost:8080/registerTeam', {
+            method: 'POST',
+            headers: {
+                "Content-type":"application/json",
+                'Accept': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: list
+        });
+    }
+
     return(
         <div>
             <Container>
@@ -31,6 +44,7 @@ export default function Team(props) {
                     <TeamPokemon poke={team[4] ? team[4] : null}/>
                     <TeamPokemon poke={team[5] ? team[5] : null}/>
                 </Row>
+                <Button variant="primary" onClick={SaveToDatabase}>Save</Button>
             </Container>
         </div>
     )

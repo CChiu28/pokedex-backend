@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		http.authorizeRequests()
 		http.csrf().disable().authorizeRequests()
 //			.antMatchers("/**").hasRole("ADMIN")
-				.antMatchers("/register","/students","/books","/pokemon","/pokemon/*","/pokemonGeneration","/pokemonGeneration/*","/index*","/*.js","/*.json","*.css").permitAll().anyRequest().authenticated()
+				.antMatchers("/register","/students","/registerTeam","/pokemon","/pokemon/*","/pokemonGeneration","/pokemonGeneration/*","/index*","/*.js","/*.json","*.css").permitAll().anyRequest().authenticated()
 //				.antMatchers("/*").permitAll().anyRequest().authenticated()
 //			.and().formLogin().loginPage("/index.html").loginProcessingUrl("/perform_login").defaultSuccessUrl("/students",true)
 //				.failureUrl("/index.html?error=true").and()

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import '../styles/PokemonList.css'
 import { Dropdown, DropdownButton } from "react-bootstrap";
 
 export default function PokemonList(props) {

@@ -7,4 +7,5 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = false)
 public class Name {
     private String name;
+    private String url;
 }

@@ -1,6 +1,9 @@
 package com.registrar.registrar2.service;
 
-import com.registrar.registrar2.model.Pokemon.*;
+import com.registrar.registrar2.model.Pokemon.Generations;
+import com.registrar.registrar2.model.Pokemon.MoveInfo;
+import com.registrar.registrar2.model.Pokemon.Moves;
+import com.registrar.registrar2.model.Pokemon.Pokemon;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
