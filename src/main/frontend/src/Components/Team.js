@@ -1,13 +1,27 @@
-import React, { useState, useRef } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import React, { useState, useRef, useEffect } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import PokemonList from "./PokemonList";
 import TeamPokemon from "./TeamPokemon";
 
 export default function Team(props) {
+    const auth = getAuth();
+    const userId = useRef('');
     const pokemon = props.pokemon;
     const teamOfPokemon = useRef([]);
     const [team,setTeam] = useState([]);
     const [teamSaved,setSave] = useState(false);
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userId.current = user.uid;
+                console.log(props)
+                if (props.pokemonDB)
+                    setTeam(props.pokemonDB);
+            } else userId.current = '';
+        })
+    },[])
 
     function getPokemon(poke) {
         // const teamOfPokemon = team;
@@ -18,23 +32,30 @@ export default function Team(props) {
                 const index = teamOfPokemon.current.indexOf(null);
                 teamOfPokemon.current[index] = poke;
             } else teamOfPokemon.current.push(poke);
-            console.log(teamOfPokemon.current)
+            console.log(userId.current,teamOfPokemon.current)
             setTeam([...teamOfPokemon.current]);
         } else console.log("Full team");
     }
 
     function SaveToDatabase() {
-        const list = JSON.stringify(team);
-        fetch('http://localhost:8080/registerTeam', {
-            method: 'POST',
-            headers: {
-                "Content-type":"application/json",
-                'Accept': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: list
-        });
-        setSave(true);
+        if (auth.currentUser) {
+            const list = JSON.stringify(team);
+            const obj = {
+                id: userId.current,
+                pokemon: team
+            }
+            console.log(JSON.stringify(obj))
+            fetch('http://localhost:8080/registerTeam', {
+                method: 'POST',
+                headers: {
+                    "Content-type":"application/json",
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(obj)
+            });
+            setSave(true);
+        } else console.log('not signed in')
     }
 
     function deletePoke(name) {
@@ -57,6 +78,21 @@ export default function Team(props) {
                     </Col>
                     <Col>
                         <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-iii"/>
+                    </Col>
+                    <Col>
+                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-iv"/>
+                    </Col>
+                    <Col>
+                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-v"/>
+                    </Col>
+                    <Col>
+                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-vi"/>
+                    </Col>
+                    <Col>
+                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-vii"/>
+                    </Col>
+                    <Col>
+                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-viii"/>
                     </Col>
                 </Row>
                 <Row>

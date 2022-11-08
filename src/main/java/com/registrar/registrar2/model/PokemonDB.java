@@ -1,28 +1,32 @@
 package com.registrar.registrar2.model;
 
 import lombok.*;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "pokemon")
-@Table(name  = "Pokemon")
+import static javax.persistence.GenerationType.SEQUENCE;
+
+//@Entity(name = "pokemon")
+//@Table(name  = "Pokemon")
+@Document("PokemonTeams")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class PokemonDB {
-    @Column(name="id")
-    @Id
-    private Integer id;
-    @Column(name="name")
-    private String teamName;
-    @Column(name="pokemon", columnDefinition = "TEXT")
-    private String pokemon;
+    private ObjectId id;
+//    @Column(name="id")
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private String id;
+//    @Column(name="users", columnDefinition = "TEXT")
+    private String users;
+//    @Column(name="pokemon", columnDefinition = "TEXT")
+    private ArrayList<ArrayList<String>> pokemon;
 //    @Column(name="pokemon2", columnDefinition = "TEXT")
 //    private String pokemon2;
 //    @Column(name="pokemon3", columnDefinition = "TEXT")
@@ -43,8 +47,8 @@ public class PokemonDB {
 //        this.pokemon6 = pokemon6;
 //    }
 
-    public PokemonDB(Integer id, List<String> pokemon) {
-        this.id = id;
-        this.pokemon = pokemon.toString();
+    public PokemonDB(String users, ArrayList<ArrayList<String>> pokemon) {
+        this.users = users;
+        this.pokemon = pokemon;
     }
 }

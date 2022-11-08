@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.registrar.registrar2.repository.StudentRepository;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackageClasses = StudentRepository.class)
+//@EnableJpaRepositories(basePackageClasses = StudentRepository.class)
+@EnableMongoRepositories
 public class RegistrarApplication {
 
 	public static void main(String[] args) {

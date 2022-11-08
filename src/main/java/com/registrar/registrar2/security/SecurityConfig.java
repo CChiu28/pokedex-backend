@@ -1,6 +1,8 @@
 package com.registrar.registrar2.security;
 
 import javax.sql.DataSource;
+
+import com.google.api.services.storage.model.Bucket;
 import com.registrar.registrar2.service.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.reactive.config.CorsRegistry;
 
 @Configuration
@@ -43,14 +48,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 //		http.authorizeRequests()
-		http.csrf().disable().authorizeRequests()
+		http.cors().and().csrf().disable().authorizeRequests()
 //			.antMatchers("/**").hasRole("ADMIN")
-				.antMatchers("/register","/students","/registerTeam","/pokemon","/pokemon/*","/pokemonGeneration","/pokemonGeneration/*","/index*","/*.js","/*.json","*.css").permitAll().anyRequest().authenticated()
+				.antMatchers("/register","/students","/registerTeam","/getTeams/*","/login","/pokemon","/pokemon/*","/pokemonGeneration","/pokemonGeneration/*","/index*","/*.js","/*.json","*.css").permitAll().anyRequest().authenticated()
 //				.antMatchers("/*").permitAll().anyRequest().authenticated()
 //			.and().formLogin().loginPage("/index.html").loginProcessingUrl("/perform_login").defaultSuccessUrl("/students",true)
 //				.failureUrl("/index.html?error=true").and()
 //				.logout().logoutUrl("/perform_logout");
 				.and().oauth2ResourceServer().jwt();
+	}
+
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("http://localhost:3000");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration("/**",config);
+		return new CorsFilter(source);
 	}
 
 	@Bean

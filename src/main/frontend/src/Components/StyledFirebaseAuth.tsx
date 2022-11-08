@@ -42,6 +42,7 @@ const StyledFirebaseAuth = ({uiConfig, firebaseAuth, className, uiCallback}: Pro
         // Render the firebaseUi Widget.
         // @ts-ignore
         firebaseUiWidget.start(elementRef.current, uiConfig);
+        console.log(firebaseAuth.currentUser.getIdToken(true))
 
         return () => {
             unregisterAuthObserver();

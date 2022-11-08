@@ -21,21 +21,24 @@ public class Student {
 	private Long dbId;
 	@Column(name = "id", columnDefinition = "INTEGER")
 	private Integer id;
-	@Column(name = "firstName", columnDefinition = "TEXT")
-	private String firstName;
-	@Column(name = "lastName", columnDefinition = "TEXT")
-	private String lastName;
+//	@Column(name = "firstName", columnDefinition = "TEXT")
+//	private String firstName;
+//	@Column(name = "lastName", columnDefinition = "TEXT")
+//	private String lastName;
 	@Column(name = "userName", columnDefinition = "TEXT")
 	private String userName;
+	@Column(name = "email", columnDefinition = "TEXT")
+	private String email;
 	@Column(name = "password", columnDefinition = "TEXT")
 	private String password;
 	private boolean active = true;
 	@Enumerated(EnumType.STRING)
 	private UserRoles roles;
 
-	public Student(String firstName, String lastName, String userName, String password, UserRoles user) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public Student(String userName, String email, String password, UserRoles user) {
+//		this.firstName = firstName;
+//		this.lastName = lastName;
+		this.email = email;
 		this.userName = userName;
 		this.password = password;
 		this.roles = user;
