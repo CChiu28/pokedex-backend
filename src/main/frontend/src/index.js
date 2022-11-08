@@ -1,15 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import firebase from 'firebase';
-// import firebase from "firebase/compat/app";
 import { initializeApp } from 'firebase/app'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { getAnalytics } from "firebase/analytics";
+import { getAuth } from 'firebase/auth';
 import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.scss';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import TeamBuilder from './Components/TeamBuilder';
 import RouteSwitch from './RouteSwitch';
 // import Form from './Components/Form';
 
@@ -48,9 +43,6 @@ const firebaseConfig = {
   measurementId: "G-J0K9BWZJ44"
 };
 
-// Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 

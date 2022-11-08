@@ -24,10 +24,7 @@ export default function Team(props) {
     },[])
 
     function getPokemon(poke) {
-        // const teamOfPokemon = team;
-        // console.log(team)
         if (teamOfPokemon.current.length<6||teamOfPokemon.current.includes(null)) {
-            // console.log(poke);
             if (teamOfPokemon.current.includes(null)) {
                 const index = teamOfPokemon.current.indexOf(null);
                 teamOfPokemon.current[index] = poke;
@@ -39,7 +36,6 @@ export default function Team(props) {
 
     function SaveToDatabase() {
         if (auth.currentUser) {
-            const list = JSON.stringify(team);
             const obj = {
                 id: userId.current,
                 pokemon: team
@@ -59,10 +55,8 @@ export default function Team(props) {
     }
 
     function deletePoke(name) {
-        // const newTeam = team;
         const index = teamOfPokemon.current.indexOf(name);
         teamOfPokemon.current[index] = null;
-        // console.log(newTeam)
         setTeam([...teamOfPokemon.current]);
     }
 
@@ -82,7 +76,7 @@ export default function Team(props) {
                     <Col>
                         <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-iv"/>
                     </Col>
-                    <Col>
+                    {/* <Col>
                         <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-v"/>
                     </Col>
                     <Col>
@@ -93,7 +87,7 @@ export default function Team(props) {
                     </Col>
                     <Col>
                         <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-viii"/>
-                    </Col>
+                    </Col> */}
                 </Row>
                 <Row>
                     <TeamPokemon poke={team[0] ? team[0] : null} deletePoke={deletePoke}/>

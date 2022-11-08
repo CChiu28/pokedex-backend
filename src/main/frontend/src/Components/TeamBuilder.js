@@ -50,9 +50,6 @@ export default function TeamBuilder(props) {
 
     return(
         <div>
-            {/* {pokemon && <PokemonList pokemon={pokemon} gen="generation-i"/>}
-            {pokemon && <PokemonList pokemon={pokemon} gen="generation-ii"/>} */}
-            {/* {pokemon && <Team pokemon={pokemon} />} */}
             {pokemon && teams}
             <Button variant="primary" onClick={addNewTeam}>New Team</Button>
         </div>

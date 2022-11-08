@@ -6,7 +6,6 @@ export default function VersionsList(props) {
 	const pokeDex = new Pokedex();
 	const moves = props.moves;
 	const moveData = props.moveInfo;
-	// const [moveInfo,setMoveInfo] = useState(null);
 	const genRef = useRef([]);
 	const [versions,setVersion] = useState();
 
@@ -27,7 +26,6 @@ export default function VersionsList(props) {
 	}
 	
 	function displayVersions(version) {
-		// console.log(version,moveData);
 		return (version.map((ver) =>
 			<MovesTable key={ver.name} ver={ver} moves={moves} moveInfo={moveData}/>
 		)

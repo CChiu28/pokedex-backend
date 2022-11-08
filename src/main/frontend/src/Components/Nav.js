@@ -33,8 +33,6 @@ export default function NavBar(props) {
                 <Navbar.Brand>Pokedex</Navbar.Brand>
                 <Navbar.Text>{userHeader}</Navbar.Text>
                 <Nav>
-                    {/* <Nav.Link href="/">Search</Nav.Link>
-                    <Nav.Link href="/teambuilder">Team Builder</Nav.Link> */}
                     <Link to='/'>Search</Link>
                     <Link to='/teambuilder'>Team Builder</Link>
                     <Nav.Item>

@@ -1,5 +1,4 @@
 import React from "react";
-import SidebarMenu from "react-bootstrap-sidebar-menu";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import TeamBuilder from './Components/TeamBuilder';

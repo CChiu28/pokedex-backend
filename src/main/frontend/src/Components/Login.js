@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import StyledFirebaseAuth from "./StyledFirebaseAuth.tsx";
-import firebase from 'firebase/compat/app';
 import { getAuth,createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import firebaseui from "firebaseui";
 import { Modal, Button, Form, FloatingLabel, Tabs, Tab } from "react-bootstrap";
@@ -10,7 +9,6 @@ export default function Login(props) {
         email: '',
         password: ''
     });
-    // const auth = getAuth(props.firebaseApp);
     const auth = getAuth();
 
     // const uiConfig = {

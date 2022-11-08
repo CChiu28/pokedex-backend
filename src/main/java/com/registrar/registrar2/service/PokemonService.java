@@ -4,8 +4,13 @@ import com.registrar.registrar2.model.Pokemon.Generations;
 import com.registrar.registrar2.model.Pokemon.MoveInfo;
 import com.registrar.registrar2.model.Pokemon.Moves;
 import com.registrar.registrar2.model.Pokemon.Pokemon;
+import com.registrar.registrar2.model.PokemonDB;
 import com.registrar.registrar2.model.PokemonRequest;
+import com.registrar.registrar2.repository.PokemonDBRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,8 +24,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class PokemonService {
-//    @Autowired
-//    private WebClient webClient;
+    private MongoTemplate mongoTemplate;
+    private PokemonDBRepository pokemonDBRepository;
     public Pokemon getPokemonFromApi(String name) {
         String url = "https://pokeapi.co/api/v2/pokemon/"+name;
         RestTemplate restTemplate = new RestTemplate();
@@ -29,13 +34,11 @@ public class PokemonService {
     }
 
     public ArrayList<MoveInfo> getMoveInfo(Moves[] moves) {
-        RestTemplate restTemplate = new RestTemplate();
         WebClient webClient = WebClient.create();
         ArrayList<MoveInfo> moveInfo = new ArrayList<>();
         List<Moves> list = Arrays.asList(moves);
         list.stream().map(move -> {
             String url = "https://pokeapi.co/api/v2/move/" + move.getMove().getName();
-//            ResponseEntity<MoveInfo> response = restTemplate.getForEntity(url, MoveInfo.class);
             Mono<MoveInfo> response = webClient.get().uri(url).retrieve().bodyToMono(MoveInfo.class);
             return response.block();
         }).forEach(moveInfo::add);
@@ -43,15 +46,22 @@ public class PokemonService {
     }
 
     public Generations getGeneration() {
-//        int[] offsetLimit = getOffsetLimitByGeneration(gen);
         String url = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=1000";
         WebClient webClient = WebClient.create();
-        ArrayList<Generations> Names = new ArrayList<>();
         Mono<Generations> res = webClient.get().uri(url).retrieve().bodyToMono(Generations.class);
         return res.block();
     }
 
     public void registerTeam(PokemonRequest names) {
-
+        PokemonDB db = mongoTemplate.findOne(Query.query(Criteria.where("users").is(names.getId())),PokemonDB.class);
+        System.out.println(db);
+        if (db==null) {
+            ArrayList<ArrayList<String>> team = new ArrayList<>();
+            team.add(names.getPokemon());
+            pokemonDBRepository.save(new PokemonDB(names.getId(), team));
+        } else {
+            db.getPokemon().add(names.getPokemon());
+            pokemonDBRepository.save(db);
+        }
     }
 }
