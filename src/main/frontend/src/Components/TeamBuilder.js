@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import PokemonList from "./PokemonList";
 import Team from "./Team";
 
@@ -12,7 +12,7 @@ export default function TeamBuilder(props) {
 
     useEffect(() => {
         (async () => {
-            const poke = await fetch(`http://localhost:8080/pokemonGeneration`);
+            const poke = await fetch(`http://localhost:8080/api/pokemonGeneration`);
             const data = await poke.json();
             await setPokemon(data);
         })();
@@ -30,28 +30,57 @@ export default function TeamBuilder(props) {
     useEffect(() => {
         if (user&&pokemon) {
             const teamDB = [];
-            fetch(`http://localhost:8080/getTeams/${user.uid}`)
+            fetch(`http://localhost:8080/api/getTeams/${user.uid}`)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)
                     data.pokemon.forEach(res => {
-                        console.log(res)
-                        teamDB.push(<Team key={teamDB.length} pokemon={pokemon} pokemonDB={res} />);
+                        teamDB.push(<Team key={teamDB.length} index={teamDB.length} pokemon={pokemon} pokemonDB={res} DeleteFromDatabase={DeleteFromDatabase}/>);
                     });
-                    setTeams([...teams,...teamDB]);
+                    setTeams([...teamDB]);
                 })
                 .catch(err => console.log(`bad fetch: ${err}`));
         } else setTeams([])
     },[user,pokemon])
 
     function addNewTeam() {
-        setTeams([...teams,<Team key={teams.length} pokemon={pokemon} />]);
+        setTeams([...teams,<Team key={teams.length} index={teams.length} pokemon={pokemon} DeleteFromDatabase={DeleteFromDatabase}/>]);
+    }
+
+    async function DeleteFromDatabase(index) {
+        const teamDB = [];
+        const url = `http://localhost:8080/api/deleteTeam/${user.uid}/${index}`;
+        // fetch(`http://localhost:8080/api/deleteTeam/${user.uid}/${index}`)
+        //     .then(res => res.json())
+        //         .then(data => {
+        //             console.log(data)
+        //             data.pokemon.forEach(res => {
+        //                 teamDB.push(<Team key={teamDB.length} index={teamDB.length} pokemon={pokemon} pokemonDB={res} DeleteFromDatabase={DeleteFromDatabase}/>);
+        //             });
+        //             setTeams([...teams,...teamDB]);
+        //         })
+        //         .catch(err => console.log(`bad fetch: ${err}`));
+        // setTeams([...teams])
+        getTeams(url);
+    }
+
+    async function getTeams(url) {
+        const teamDB = [];
+        await fetch(url);
+        const res = await fetch(`http://localhost:8080/api/getTeams/${user.uid}`)
+        const data = await res.json();
+        data.pokemon.forEach((team,index) => {
+            console.log(index)
+            teamDB.push(<Team key={index} index={index} pokemon={pokemon} pokemonDB={team} DeleteFromDatabase={DeleteFromDatabase} />)
+        }
+        );
+        setTeams([...teamDB]);
     }
 
     return(
-        <div>
-            {pokemon && teams}
+        <Container>
             <Button variant="primary" onClick={addNewTeam}>New Team</Button>
-        </div>
+            {pokemon && teams}
+        </Container>
     )
 }

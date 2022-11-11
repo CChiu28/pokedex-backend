@@ -6,7 +6,6 @@ import com.registrar.registrar2.model.Pokemon.Moves;
 import com.registrar.registrar2.model.Pokemon.Pokemon;
 import com.registrar.registrar2.model.PokemonDB;
 import com.registrar.registrar2.model.PokemonRequest;
-import com.registrar.registrar2.repository.PokemonDBRepository;
 import com.registrar.registrar2.service.PokemonService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -19,9 +18,7 @@ import java.util.ArrayList;
 @RestController
 @AllArgsConstructor
 public class PokemonController {
-//    private WebClient webClient;
     private PokemonService pokemonService;
-    private PokemonDBRepository pokemonDBRepository;
     private MongoTemplate mongoTemplate;
 
 //    @CrossOrigin()
@@ -51,6 +48,12 @@ public class PokemonController {
     @GetMapping("/getTeams/{uid}")
     public PokemonDB getTeams(@PathVariable String uid) {
         return mongoTemplate.findOne(Query.query(Criteria.where("users").is(uid)),PokemonDB.class);
+    }
+
+    @GetMapping("/deleteTeam/{uid}/{index}")
+    public PokemonDB deleteTeam(@PathVariable("uid") String uid, @PathVariable("index") String index) {
+        System.out.println(index);
+        return pokemonService.deleteTeam(uid,index);
     }
 //    @GetMapping(path = "/test")
 //    public String test(Principal principal) {

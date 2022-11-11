@@ -9,6 +9,7 @@ export default function Team(props) {
     const userId = useRef('');
     const pokemon = props.pokemon;
     const teamOfPokemon = useRef([]);
+    const id = useRef(Date.now());
     const [team,setTeam] = useState([]);
     const [teamSaved,setSave] = useState(false);
 
@@ -16,9 +17,10 @@ export default function Team(props) {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 userId.current = user.uid;
-                console.log(props)
-                if (props.pokemonDB)
-                    setTeam(props.pokemonDB);
+                if (props.pokemonDB) {
+                    teamOfPokemon.current = props.pokemonDB;
+                    setTeam(teamOfPokemon.current);
+                }
             } else userId.current = '';
         })
     },[])
@@ -34,14 +36,15 @@ export default function Team(props) {
         } else console.log("Full team");
     }
 
-    function SaveToDatabase() {
+    function saveToDatabase() {
         if (auth.currentUser) {
             const obj = {
                 id: userId.current,
+                index: props.index,
                 pokemon: team
             }
             console.log(JSON.stringify(obj))
-            fetch('http://localhost:8080/registerTeam', {
+            fetch('http://localhost:8080/api/registerTeam', {
                 method: 'POST',
                 headers: {
                     "Content-type":"application/json",
@@ -60,45 +63,48 @@ export default function Team(props) {
         setTeam([...teamOfPokemon.current]);
     }
 
+    function deleteDB() {
+        props.DeleteFromDatabase(props.index);
+    }
+
     return(
-        <div>
-            <Container>
-                <Row>
-                    <Col>
-                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-i"/>
-                    </Col>
-                    <Col>    
-                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-ii"/>
-                    </Col>
-                    <Col>
-                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-iii"/>
-                    </Col>
-                    <Col>
-                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-iv"/>
-                    </Col>
-                    {/* <Col>
-                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-v"/>
-                    </Col>
-                    <Col>
-                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-vi"/>
-                    </Col>
-                    <Col>
-                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-vii"/>
-                    </Col>
-                    <Col>
-                        <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="generation-viii"/>
-                    </Col> */}
-                </Row>
-                <Row>
-                    <TeamPokemon poke={team[0] ? team[0] : null} deletePoke={deletePoke}/>
-                    <TeamPokemon poke={team[1] ? team[1] : null} deletePoke={deletePoke}/>
-                    <TeamPokemon poke={team[2] ? team[2] : null} deletePoke={deletePoke}/>
-                    <TeamPokemon poke={team[3] ? team[3] : null} deletePoke={deletePoke}/>
-                    <TeamPokemon poke={team[4] ? team[4] : null} deletePoke={deletePoke}/>
-                    <TeamPokemon poke={team[5] ? team[5] : null} deletePoke={deletePoke}/>
-                </Row>
-                <Button variant="primary" onClick={SaveToDatabase}>Save</Button>
-            </Container>
+        <div className="m-3">
+            <Row>
+                <Col className="d-flex justify-content-center">
+                    <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="Gen I"/>
+                </Col>
+                <Col className="d-flex justify-content-center">    
+                    <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="Gen II"/>
+                </Col>
+                <Col className="d-flex justify-content-center">
+                    <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="Gen III"/>
+                </Col>
+                <Col className="d-flex justify-content-center">
+                    <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="Gen IV"/>
+                </Col>
+                <Col className="d-flex justify-content-center">
+                    <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="Gen V"/>
+                </Col>
+                <Col className="d-flex justify-content-center">
+                    <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="Gen VI"/>
+                </Col>
+                <Col className="d-flex justify-content-center">
+                    <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="Gen VII"/>
+                </Col>
+                <Col className="d-flex justify-content-center">
+                    <PokemonList pokemon={pokemon} getPokemon={getPokemon} gen="Gen VIII"/>
+                </Col>
+            </Row>
+            <Row>
+                <TeamPokemon poke={team[0] ? team[0] : null} deletePoke={deletePoke}/>
+                <TeamPokemon poke={team[1] ? team[1] : null} deletePoke={deletePoke}/>
+                <TeamPokemon poke={team[2] ? team[2] : null} deletePoke={deletePoke}/>
+                <TeamPokemon poke={team[3] ? team[3] : null} deletePoke={deletePoke}/>
+                <TeamPokemon poke={team[4] ? team[4] : null} deletePoke={deletePoke}/>
+                <TeamPokemon poke={team[5] ? team[5] : null} deletePoke={deletePoke}/>
+            </Row>
+            <Button variant="primary" onClick={saveToDatabase}>Save</Button>
+            <Button variant="primary" onClick={deleteDB}>Delete</Button>
         </div>
     )
 }

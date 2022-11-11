@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		http.authorizeRequests()
 		http.cors().and().csrf().disable().authorizeRequests()
 //			.antMatchers("/**").hasRole("ADMIN")
-				.antMatchers("/register","/students","/registerTeam","/getTeams/*","/login","/pokemon","/pokemon/*","/pokemonGeneration","/pokemonGeneration/*","/index*","/*.js","/*.json","*.css").permitAll().anyRequest().authenticated()
+				.antMatchers("/api","/api/*","/register","/students","/registerTeam","/getTeams/*","/deleteTeam/*/*","/login","/pokemon","/pokemon/*","/pokemonGeneration","/pokemonGeneration/*","/index*","/*.js","/*.json","*.css").permitAll().anyRequest().authenticated()
 //				.antMatchers("/*").permitAll().anyRequest().authenticated()
 //			.and().formLogin().loginPage("/index.html").loginProcessingUrl("/perform_login").defaultSuccessUrl("/students",true)
 //				.failureUrl("/index.html?error=true").and()

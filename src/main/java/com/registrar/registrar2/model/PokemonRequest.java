@@ -12,5 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 public class PokemonRequest {
     private String id;
+    private String index;
     private ArrayList<String> pokemon;
+//    private PokemonTeam pokemon;
+    public class PokemonTeam {
+        private String id;
+        private ArrayList<ArrayList<String>> pokemon;
+    }
 }

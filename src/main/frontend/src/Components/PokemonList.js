@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import '../styles/PokemonList.css'
 import { Dropdown, DropdownButton } from "react-bootstrap";
+import { formatText } from "../Utils";
 
 export default function PokemonList(props) {
     // const gen = props.gen;
@@ -15,21 +16,21 @@ export default function PokemonList(props) {
 
     function getOffsetLimitByGeneration(gen) {
         switch (gen) {
-            case "generation-i":
+            case "Gen I":
                 return [0,151];
-            case "generation-ii":
+            case "Gen II":
                 return [151,251];
-            case "generation-iii":
+            case "Gen III":
                 return [251,386];
-            case "generation-iv":
+            case "Gen IV":
                 return [386,493];
-            case "generation-v":
+            case "Gen V":
                 return [493,649];
-            case "generation-vi":
+            case "Gen VI":
                 return [649,721];
-            case "generation-vii":
+            case "Gen VII":
                 return [721,809];
-            case "generation-viii":
+            case "Gen VIII":
                 return [809,905];
             default:
                 return [0,0];
@@ -43,9 +44,9 @@ export default function PokemonList(props) {
     return(
         <>
             <DropdownButton id="dropdown" title={props.gen}>
-                {list.map((poke) => {
+                {list.map(poke => {
                     return (
-                        <Dropdown.Item key={poke.name} onClick={handleClick}>{poke.name}</Dropdown.Item>
+                        <Dropdown.Item key={poke.name} onClick={handleClick}>{formatText(poke.name)}</Dropdown.Item>
                     )
                 })}
             </DropdownButton>

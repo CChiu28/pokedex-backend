@@ -54,14 +54,27 @@ public class PokemonService {
 
     public void registerTeam(PokemonRequest names) {
         PokemonDB db = mongoTemplate.findOne(Query.query(Criteria.where("users").is(names.getId())),PokemonDB.class);
-        System.out.println(db);
+        System.out.println(names);
         if (db==null) {
             ArrayList<ArrayList<String>> team = new ArrayList<>();
             team.add(names.getPokemon());
-            pokemonDBRepository.save(new PokemonDB(names.getId(), team));
+            pokemonDBRepository.save(new PokemonDB(names.getId(),team));
+        } else if (Integer.parseInt(names.getIndex())<db.getPokemon().size()){
+            db.getPokemon().set(Integer.parseInt(names.getIndex()),names.getPokemon());
+            pokemonDBRepository.save(db);
         } else {
             db.getPokemon().add(names.getPokemon());
             pokemonDBRepository.save(db);
         }
+    }
+
+    public PokemonDB deleteTeam(String uid, String index) {
+        PokemonDB db = mongoTemplate.findOne(Query.query(Criteria.where("users").is(uid)),PokemonDB.class);
+        if (db!=null) {
+            db.getPokemon().remove(Integer.parseInt(index));
+            System.out.println(db);
+            pokemonDBRepository.save(db);
+        }
+        return mongoTemplate.findOne(Query.query(Criteria.where("users").is(uid)),PokemonDB.class);
     }
 }

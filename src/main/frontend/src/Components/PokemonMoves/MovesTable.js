@@ -16,7 +16,7 @@ export default function MovesTable(props) {
         getLvlFromMoves(list);
         const stringifyList = JSON.stringify(list);
         // console.log(stringifyList)
-        fetch(`http://localhost:8080/pokemon/moves`, {
+        fetch(`http://localhost:8080/api/pokemon/moves`, {
             method: "POST",
             headers: {
                 "Content-type":"application/json",

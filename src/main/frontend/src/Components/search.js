@@ -7,7 +7,7 @@ export default function Search(props) {
 
 	async function getData(search) {
 		try {
-			let poke = await fetch(`http://localhost:8080/pokemon/${search}`, {
+			let poke = await fetch(`http://localhost:8080/api/pokemon/${search}`, {
 				method: "POST",
 				headers: {
 					"Content-type":"application/json charset=UTF-8",
@@ -28,7 +28,7 @@ export default function Search(props) {
 	async function handleClick(e) {
 		e.preventDefault();
 		console.log(input)
-		let response = await getData(input);
+		let response = await getData(input.toLowerCase());
 		console.log(response);
 		props.onSubmitted(response);
 	}
@@ -36,8 +36,8 @@ export default function Search(props) {
 	return (
 		<div>
 			<Form className='d-flex'>
-				<Form.Control type="search" id="pokeInput" onChange={handleChange} value={input}/>
-				<Button variant="primary" type="submit" onClick={handleClick}>Submit</Button>
+				<Form.Control className="m-2" type="search" id="pokeInput" onChange={handleChange} value={input}/>
+				<Button className="m-2" variant="primary" type="submit" onClick={handleClick}>Submit</Button>
 			</Form>
 		</div>
 	)

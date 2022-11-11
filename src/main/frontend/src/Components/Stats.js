@@ -5,9 +5,9 @@ export default function Stats(props) {
 
 	function getStat(stat) {
 		return(
-			<div className="d-flex" key={stat.stat.name}>
-				<p>{stat.stat.name}: </p>
-				<p>{stat.base_stat}</p>
+			<div className="d-flex justify-content-between m-1" key={stat.stat.name}>
+				<span>{stat.stat.name}:&nbsp;</span>
+				<span className="justify-content-end">{stat.base_stat}</span>
 			</div>
 		);
 	}

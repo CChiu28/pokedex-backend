@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Col } from "react-bootstrap";
+import { formatText } from "../Utils";
 
 export default function TeamPokemon(props) {
     const pokeName = props.poke;
@@ -8,7 +9,7 @@ export default function TeamPokemon(props) {
 
     useEffect(() => {
         if (pokeName) {
-            fetch(`https://pokeapi.co/api/v2/pokemon/${props.poke}`)
+            fetch(`https://pokeapi.co/api/v2/pokemon/${props.poke.toLowerCase()}`)
                 .then(res => res.json())
                 .then(data => {
                     setPokemon(data);
@@ -29,7 +30,7 @@ export default function TeamPokemon(props) {
             <Col>
                 <Card className="w-auto m-2" onClick={deletePoke}>
                     <Card.Img src={(pokemon&&hasPokemon) ? pokemon.sprites.front_default : require("../resources/pokemon-egg.png")} />
-                    <Card.Title>{(pokemon&&hasPokemon) ? pokemon.name : ''}</Card.Title>
+                    <Card.Title>{(pokemon&&hasPokemon) ? formatText(pokemon.name) : ''}</Card.Title>
                 </Card>
             </Col>
         </>

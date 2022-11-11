@@ -1,7 +1,7 @@
 function LoginToDB(info) {
     const obj = JSON.stringify(info);
     console.log(obj)
-    fetch('http://localhost:8080/getUser', {
+    fetch('http://localhost:8080/api/getUser', {
         method: 'GET',
         headers: {
             "Content-type":"application/json",
@@ -12,6 +12,11 @@ function LoginToDB(info) {
     }).then(res => res.text()).then(data => console.log(data));
 }
 
+function formatText(text) {
+    const newText = text.replaceAll('-',' ');
+    return newText[0].toUpperCase()+newText.slice(1,newText.length);
+}
 export {
-    LoginToDB
+    LoginToDB,
+    formatText
 }
