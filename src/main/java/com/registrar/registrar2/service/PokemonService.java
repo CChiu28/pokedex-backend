@@ -59,7 +59,7 @@ public class PokemonService {
             ArrayList<ArrayList<String>> team = new ArrayList<>();
             team.add(names.getPokemon());
             pokemonDBRepository.save(new PokemonDB(names.getId(),team));
-        } else if (Integer.parseInt(names.getIndex())<db.getPokemon().size()){
+        } else if ((Integer.parseInt(names.getIndex())<db.getPokemon().size())&&names.getUniqueId()!=null){
             db.getPokemon().set(Integer.parseInt(names.getIndex()),names.getPokemon());
             pokemonDBRepository.save(db);
         } else {
@@ -68,13 +68,14 @@ public class PokemonService {
         }
     }
 
-    public PokemonDB deleteTeam(String uid, String index) {
+    public PokemonDB deleteTeam(String uid, int index) {
         PokemonDB db = mongoTemplate.findOne(Query.query(Criteria.where("users").is(uid)),PokemonDB.class);
         if (db!=null) {
-            db.getPokemon().remove(Integer.parseInt(index));
+            db.getPokemon().remove(index);
             System.out.println(db);
             pokemonDBRepository.save(db);
         }
-        return mongoTemplate.findOne(Query.query(Criteria.where("users").is(uid)),PokemonDB.class);
+//        return mongoTemplate.findOne(Query.query(Criteria.where("users").is(uid)),PokemonDB.class);
+        return db;
     }
 }

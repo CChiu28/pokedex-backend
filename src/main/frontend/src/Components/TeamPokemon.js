@@ -2,35 +2,34 @@ import React, { useState, useEffect } from "react";
 import { Card, Col } from "react-bootstrap";
 import { formatText } from "../Utils";
 
-export default function TeamPokemon(props) {
-    const pokeName = props.poke;
-    const [hasPokemon,setHasPokemon] = useState(false);
-    const [pokemon,setPokemon] = useState();
+export default function TeamPokemon({ poke, deletePoke }) {
+    const [pokemon,setPokemon] = useState(null);
 
     useEffect(() => {
-        if (pokeName) {
-            fetch(`https://pokeapi.co/api/v2/pokemon/${props.poke.toLowerCase()}`)
+        if (poke) {
+            fetch(`https://pokeapi.co/api/v2/pokemon/${poke.toLowerCase()}`)
                 .then(res => res.json())
                 .then(data => {
                     setPokemon(data);
-                    setHasPokemon(true);
+                    // setHasPokemon(true);
                 });
         }
-    },[props.poke])
+    },[poke])
 
-    function deletePoke() {
-        if (hasPokemon) {
-            props.deletePoke(pokemon.name);
-            setHasPokemon(false);
+    function deletePokemon() {
+        if (pokemon) {
+            deletePoke(formatText(pokemon.name));
+            // setHasPokemon(false);
+            setPokemon(null);
         }
     }
 
     return(
         <>
             <Col>
-                <Card className="w-auto m-2" onClick={deletePoke}>
-                    <Card.Img src={(pokemon&&hasPokemon) ? pokemon.sprites.front_default : require("../resources/pokemon-egg.png")} />
-                    <Card.Title>{(pokemon&&hasPokemon) ? formatText(pokemon.name) : ''}</Card.Title>
+                <Card className="w-auto m-2" onClick={deletePokemon}>
+                    <Card.Img src={pokemon ? pokemon.sprites.front_default : require("../resources/pokemon-egg.png")} />
+                    <Card.Title>{pokemon ? formatText(pokemon.name) : ''}</Card.Title>
                 </Card>
             </Col>
         </>

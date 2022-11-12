@@ -4,21 +4,19 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import PokemonList from "./PokemonList";
 import TeamPokemon from "./TeamPokemon";
 
-export default function Team(props) {
+export default function Team({ pokemon, pokemonDB, index, uniqueId, DeleteFromDatabase }) {
     const auth = getAuth();
     const userId = useRef('');
-    const pokemon = props.pokemon;
+    // const pokemon = props.pokemon;
     const teamOfPokemon = useRef([]);
-    const id = useRef(Date.now());
     const [team,setTeam] = useState([]);
-    const [teamSaved,setSave] = useState(false);
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 userId.current = user.uid;
-                if (props.pokemonDB) {
-                    teamOfPokemon.current = props.pokemonDB;
+                if (pokemonDB) {
+                    teamOfPokemon.current = pokemonDB;
                     setTeam(teamOfPokemon.current);
                 }
             } else userId.current = '';
@@ -40,7 +38,8 @@ export default function Team(props) {
         if (auth.currentUser) {
             const obj = {
                 id: userId.current,
-                index: props.index,
+                index: index,
+                uniqueId: uniqueId ? uniqueId : null,
                 pokemon: team
             }
             console.log(JSON.stringify(obj))
@@ -53,18 +52,18 @@ export default function Team(props) {
                 },
                 body: JSON.stringify(obj)
             });
-            setSave(true);
         } else console.log('not signed in')
     }
 
     function deletePoke(name) {
         const index = teamOfPokemon.current.indexOf(name);
         teamOfPokemon.current[index] = null;
+        console.log(index,teamOfPokemon.current)
         setTeam([...teamOfPokemon.current]);
     }
 
     function deleteDB() {
-        props.DeleteFromDatabase(props.index);
+        DeleteFromDatabase(index);
     }
 
     return(
@@ -103,8 +102,12 @@ export default function Team(props) {
                 <TeamPokemon poke={team[4] ? team[4] : null} deletePoke={deletePoke}/>
                 <TeamPokemon poke={team[5] ? team[5] : null} deletePoke={deletePoke}/>
             </Row>
-            <Button variant="primary" onClick={saveToDatabase}>Save</Button>
-            <Button variant="primary" onClick={deleteDB}>Delete</Button>
+            {auth.currentUser 
+            ? <>
+                <Button variant="primary" onClick={saveToDatabase}>Save</Button>
+                <Button variant="primary" onClick={deleteDB}>Delete</Button>
+            </> 
+            : <span className="m-1">Sign in to save your teams!</span>}
         </div>
     )
 }

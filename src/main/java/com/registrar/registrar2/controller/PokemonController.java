@@ -53,7 +53,7 @@ public class PokemonController {
     @GetMapping("/deleteTeam/{uid}/{index}")
     public PokemonDB deleteTeam(@PathVariable("uid") String uid, @PathVariable("index") String index) {
         System.out.println(index);
-        return pokemonService.deleteTeam(uid,index);
+        return pokemonService.deleteTeam(uid,Integer.parseInt(index));
     }
 //    @GetMapping(path = "/test")
 //    public String test(Principal principal) {

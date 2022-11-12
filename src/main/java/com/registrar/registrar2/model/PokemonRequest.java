@@ -13,10 +13,6 @@ import java.util.List;
 public class PokemonRequest {
     private String id;
     private String index;
+    private String uniqueId;
     private ArrayList<String> pokemon;
-//    private PokemonTeam pokemon;
-    public class PokemonTeam {
-        private String id;
-        private ArrayList<ArrayList<String>> pokemon;
-    }
 }

@@ -3,15 +3,14 @@ import '../styles/PokemonList.css'
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { formatText } from "../Utils";
 
-export default function PokemonList(props) {
+export default function PokemonList({ pokemon, gen, getPokemon }) {
     // const gen = props.gen;
     const [list,setList] = useState([]);
 
     useEffect(() => {
-        const pokemon = props.pokemon.results;
-        const gen = props.gen;
+        const pokemonList = pokemon.results;
         const offset = getOffsetLimitByGeneration(gen);
-        setList(pokemon.slice(offset[0],offset[1]));
+        setList(pokemonList.slice(offset[0],offset[1]));
     },[])
 
     function getOffsetLimitByGeneration(gen) {
@@ -38,12 +37,12 @@ export default function PokemonList(props) {
     }
 
     const handleClick = useCallback(e => {
-        props.getPokemon(e.target.textContent);
+        getPokemon(e.target.textContent);
     },[])
 
     return(
         <>
-            <DropdownButton id="dropdown" title={props.gen}>
+            <DropdownButton id="dropdown" title={gen}>
                 {list.map(poke => {
                     return (
                         <Dropdown.Item key={poke.name} onClick={handleClick}>{formatText(poke.name)}</Dropdown.Item>
