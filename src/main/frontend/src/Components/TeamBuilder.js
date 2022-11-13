@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Button, Container } from "react-bootstrap";
-import PokemonList from "./PokemonList";
 import Team from "./Team";
 
 export default function TeamBuilder(props) {
@@ -42,7 +41,7 @@ export default function TeamBuilder(props) {
 
     function addNewTeam() {
         console.log(teams.length)
-        setTeams([...teams,<Team key={teams.length} index={teams.length} pokemon={pokemon} DeleteFromDatabase={DeleteFromDatabase}/>]);
+        setTeams([...teams,<Team key={Math.random()} index={teams.length} pokemon={pokemon} DeleteFromDatabase={DeleteFromDatabase}/>]);
     }
 
     async function getTeams(url) {
@@ -51,8 +50,8 @@ export default function TeamBuilder(props) {
         // const res = await fetch(`http://localhost:8080/api/getTeams/${user.uid}`)
         const data = await res.json();
         data.pokemon.forEach((team,i) => {
-            console.log(teams.length+i)
-            teamDB.push(<Team key={team} uniqueId={data.id.timestamp} index={teams.length+i} pokemon={pokemon} pokemonDB={team} DeleteFromDatabase={DeleteFromDatabase} />);
+            console.log(team,i)
+            teamDB.push(<Team key={Math.random()} uniqueId={data.id.timestamp} index={teams.length+i} pokemon={pokemon} pokemonDB={team} DeleteFromDatabase={DeleteFromDatabase} />);
         }
         );
         setTeams([...teams,...teamDB]);

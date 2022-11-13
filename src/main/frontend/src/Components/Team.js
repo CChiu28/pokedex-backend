@@ -1,14 +1,16 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
+import { getWeakness } from "../Utils";
 import PokemonList from "./PokemonList";
 import TeamPokemon from "./TeamPokemon";
+import Types from "./Types";
 
 export default function Team({ pokemon, pokemonDB, index, uniqueId, DeleteFromDatabase }) {
     const auth = getAuth();
     const userId = useRef('');
-    // const pokemon = props.pokemon;
     const teamOfPokemon = useRef([]);
+    const types = useRef({});
     const [team,setTeam] = useState([]);
 
     useEffect(() => {
@@ -16,6 +18,7 @@ export default function Team({ pokemon, pokemonDB, index, uniqueId, DeleteFromDa
             if (user) {
                 userId.current = user.uid;
                 if (pokemonDB) {
+                    pokemonDB.forEach(poke => getTypes(poke))
                     teamOfPokemon.current = pokemonDB;
                     setTeam(teamOfPokemon.current);
                 }
@@ -23,15 +26,52 @@ export default function Team({ pokemon, pokemonDB, index, uniqueId, DeleteFromDa
         })
     },[])
 
-    function getPokemon(poke) {
+    async function getPokemon(poke) {
         if (teamOfPokemon.current.length<6||teamOfPokemon.current.includes(null)) {
-            if (teamOfPokemon.current.includes(null)) {
-                const index = teamOfPokemon.current.indexOf(null);
-                teamOfPokemon.current[index] = poke;
-            } else teamOfPokemon.current.push(poke);
-            console.log(userId.current,teamOfPokemon.current)
-            setTeam([...teamOfPokemon.current]);
+            fetch(`https://pokeapi.co/api/v2/pokemon/${poke.toLowerCase()}`)
+                .then(res => res.json())
+                .then(data => {
+                    const pokemon = {
+                        name: data.name,
+                        types: data.types,
+                        sprites: data.sprites
+                    }
+                    if (teamOfPokemon.current.includes(null)) {
+                        const index = teamOfPokemon.current.indexOf(null);
+                        teamOfPokemon.current[index] = pokemon;
+                    } else teamOfPokemon.current.push(pokemon);
+                    getTypes(pokemon);
+                    console.log(userId.current,teamOfPokemon.current, types.current)
+                    setTeam([...teamOfPokemon.current]);
+                });
         } else console.log("Full team");
+    }
+
+    function getTypes(poke) {
+        const w = {};
+        poke.types.forEach(el => {
+            const weakness = getWeakness(el.type.name)
+            Object.entries(weakness).forEach(([key,val]) => {
+                switch (key) {
+                    case 'vulnerable':
+                        val.forEach(i => w[i] ? w[i]*=2 : w[i]=2);
+                        break;
+                    case 'resist':
+                        val.forEach(i => w[i] ? w[i]*=0.5 : w[i]=0.5);
+                        break;
+                    case 'zero':
+                        val.forEach(i => w[i] = 0);
+                        break;
+                    default:
+                        break;
+                }
+            })
+        })
+        Object.entries(w).forEach(([k,v]) => {
+            if (v>1) {
+                types.current[k] ? types.current[k] += 1 : types.current[k] = 1;
+            }
+        })
     }
 
     function saveToDatabase() {
@@ -42,7 +82,6 @@ export default function Team({ pokemon, pokemonDB, index, uniqueId, DeleteFromDa
                 uniqueId: uniqueId ? uniqueId : null,
                 pokemon: team
             }
-            console.log(JSON.stringify(obj))
             fetch('http://localhost:8080/api/registerTeam', {
                 method: 'POST',
                 headers: {
@@ -102,12 +141,13 @@ export default function Team({ pokemon, pokemonDB, index, uniqueId, DeleteFromDa
                 <TeamPokemon poke={team[4] ? team[4] : null} deletePoke={deletePoke}/>
                 <TeamPokemon poke={team[5] ? team[5] : null} deletePoke={deletePoke}/>
             </Row>
+            <Types weakness={types.current}/>
             {auth.currentUser 
-            ? <>
-                <Button variant="primary" onClick={saveToDatabase}>Save</Button>
-                <Button variant="primary" onClick={deleteDB}>Delete</Button>
-            </> 
-            : <span className="m-1">Sign in to save your teams!</span>}
+                ? <div>
+                    <Button variant="primary" onClick={saveToDatabase}>Save</Button>
+                    <Button variant="primary" onClick={deleteDB}>Delete</Button>
+                </div> 
+                : <span className="m-1">Sign in to save your teams!</span>}
         </div>
     )
 }

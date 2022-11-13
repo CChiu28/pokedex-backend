@@ -7,18 +7,13 @@ export default function TeamPokemon({ poke, deletePoke }) {
 
     useEffect(() => {
         if (poke) {
-            fetch(`https://pokeapi.co/api/v2/pokemon/${poke.toLowerCase()}`)
-                .then(res => res.json())
-                .then(data => {
-                    setPokemon(data);
-                    // setHasPokemon(true);
-                });
+            setPokemon(poke);
         }
     },[poke])
 
     function deletePokemon() {
         if (pokemon) {
-            deletePoke(formatText(pokemon.name));
+            deletePoke(pokemon);
             // setHasPokemon(false);
             setPokemon(null);
         }

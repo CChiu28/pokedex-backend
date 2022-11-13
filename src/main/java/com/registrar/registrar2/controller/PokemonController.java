@@ -41,7 +41,7 @@ public class PokemonController {
 //    @CrossOrigin()
     @PostMapping("/registerTeam")
     public void registerTeam(@RequestBody PokemonRequest names) {
-        System.out.println(names.getPokemon());
+//        System.out.println(names.getPokemon());
         pokemonService.registerTeam(names);
     }
 

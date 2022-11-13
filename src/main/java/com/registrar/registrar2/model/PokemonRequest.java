@@ -1,5 +1,6 @@
 package com.registrar.registrar2.model;
 
+import com.registrar.registrar2.model.Pokemon.Pokemon;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,5 +15,5 @@ public class PokemonRequest {
     private String id;
     private String index;
     private String uniqueId;
-    private ArrayList<String> pokemon;
+    private ArrayList<Pokemon> pokemon;
 }

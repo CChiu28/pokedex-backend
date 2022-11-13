@@ -54,9 +54,9 @@ public class PokemonService {
 
     public void registerTeam(PokemonRequest names) {
         PokemonDB db = mongoTemplate.findOne(Query.query(Criteria.where("users").is(names.getId())),PokemonDB.class);
-        System.out.println(names);
+//        System.out.println(names);
         if (db==null) {
-            ArrayList<ArrayList<String>> team = new ArrayList<>();
+            ArrayList<ArrayList<Pokemon>> team = new ArrayList<>();
             team.add(names.getPokemon());
             pokemonDBRepository.save(new PokemonDB(names.getId(),team));
         } else if ((Integer.parseInt(names.getIndex())<db.getPokemon().size())&&names.getUniqueId()!=null){
