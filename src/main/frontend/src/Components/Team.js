@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { useState, useRef, useEffect } from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import { getWeakness } from "../Utils";
+import { getTypeStrengthAndWeakness } from "../Utils";
 import PokemonList from "./PokemonList";
 import TeamPokemon from "./TeamPokemon";
 import Types from "./Types";
@@ -18,7 +18,7 @@ export default function Team({ pokemon, pokemonDB, index, uniqueId, DeleteFromDa
             if (user) {
                 userId.current = user.uid;
                 if (pokemonDB) {
-                    pokemonDB.forEach(poke => getTypes(poke))
+                    pokemonDB.forEach(poke => getTeamWeakness(poke))
                     teamOfPokemon.current = pokemonDB;
                     setTeam(teamOfPokemon.current);
                 }
@@ -40,36 +40,40 @@ export default function Team({ pokemon, pokemonDB, index, uniqueId, DeleteFromDa
                         const index = teamOfPokemon.current.indexOf(null);
                         teamOfPokemon.current[index] = pokemon;
                     } else teamOfPokemon.current.push(pokemon);
-                    getTypes(pokemon);
+                    getTeamWeakness(pokemon);
                     console.log(userId.current,teamOfPokemon.current, types.current)
                     setTeam([...teamOfPokemon.current]);
                 });
         } else console.log("Full team");
     }
 
-    function getTypes(poke) {
-        const w = {};
+    function getTeamWeakness(poke) {
+        let weak = {};
         poke.types.forEach(el => {
-            const weakness = getWeakness(el.type.name)
-            Object.entries(weakness).forEach(([key,val]) => {
-                switch (key) {
-                    case 'vulnerable':
-                        val.forEach(i => w[i] ? w[i]*=2 : w[i]=2);
-                        break;
-                    case 'resist':
-                        val.forEach(i => w[i] ? w[i]*=0.5 : w[i]=0.5);
-                        break;
-                    case 'zero':
-                        val.forEach(i => w[i] = 0);
-                        break;
-                    default:
-                        break;
-                }
-            })
+            getPokemonWeakness(weak,el);
         })
-        Object.entries(w).forEach(([k,v]) => {
+        Object.entries(weak).forEach(([k,v]) => {
             if (v>1) {
                 types.current[k] ? types.current[k] += 1 : types.current[k] = 1;
+            }
+        })
+    }
+
+    function getPokemonWeakness(weak,el) {
+        const weakness = getTypeStrengthAndWeakness(el.type.name)
+        Object.entries(weakness).forEach(([key,val]) => {
+            switch (key) {
+                case 'vulnerable':
+                    val.forEach(i => weak[i] ? weak[i]*=2 : weak[i]=2);
+                    break;
+                case 'resist':
+                    val.forEach(i => weak[i] ? weak[i]*=0.5 : weak[i]=0.5);
+                    break;
+                case 'zero':
+                    val.forEach(i => weak[i] = 0);
+                    break;
+                default:
+                    break;
             }
         })
     }
@@ -97,6 +101,14 @@ export default function Team({ pokemon, pokemonDB, index, uniqueId, DeleteFromDa
     function deletePoke(name) {
         const index = teamOfPokemon.current.indexOf(name);
         teamOfPokemon.current[index] = null;
+        name.types.forEach(type => {
+            const weak = {}
+            getPokemonWeakness(weak,type);
+            Object.entries(weak).forEach(([k,v]) => {
+                if (v>1)
+                    types.current[k] ? types.current[k] -= 1 : types.current[k] = ''
+            })
+        })
         console.log(index,teamOfPokemon.current)
         setTeam([...teamOfPokemon.current]);
     }

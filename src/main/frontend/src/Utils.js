@@ -17,7 +17,7 @@ function formatText(text) {
     return newText[0].toUpperCase()+newText.slice(1,newText.length);
 }
 
-function getWeakness(type) {
+function getTypeStrengthAndWeakness(type) {
     switch (type) {
         case 'normal':
             return {
@@ -170,5 +170,5 @@ function getWeakness(type) {
 export {
     LoginToDB,
     formatText,
-    getWeakness
+    getTypeStrengthAndWeakness
 }
