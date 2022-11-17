@@ -26,11 +26,11 @@ export default function Login(props) {
         // console.log(e);
         const info = await signInWithEmailAndPassword(auth,e.target[0].value,e.target[1].value);
         // console.log(info.user.accessToken)
-        props.getLogin({
-            email: e.target[0].value,
-            password: e.target[1].value,
-            jwt: info.user.accessToken
-        });
+        // props.getLogin({
+        //     email: e.target[0].value,
+        //     password: e.target[1].value,
+        //     jwt: info.user.accessToken
+        // });
     }
 
     function handleRegister(e) {
