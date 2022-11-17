@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins="https://cchiu28-pokedex.netlify.app/")
 public class PokemonController {
     private PokemonService pokemonService;
     private MongoTemplate mongoTemplate;
