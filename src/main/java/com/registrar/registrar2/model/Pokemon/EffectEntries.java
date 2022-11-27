@@ -7,5 +7,6 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = false)
 public class EffectEntries {
     private String effect;
+    private Name language;
     private String short_effect;
 }

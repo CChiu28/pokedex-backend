@@ -7,5 +7,6 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = false)
 public class FlavorTextEntries {
     private String flavor_text;
+    private Name language;
     private Name version_group;
 }
