@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class PokemonDatabaseService {
     private MongoTemplate mongoTemplate;
     private PokemonDBRepository pokemonDBRepository;
+
     public void registerTeam(PokemonRequest names) {
         PokemonDB db = mongoTemplate.findOne(Query.query(Criteria.where("users").is(names.getId())),PokemonDB.class);
         if (db==null) {
@@ -40,5 +41,9 @@ public class PokemonDatabaseService {
             pokemonDBRepository.save(db);
         }
         return db;
+    }
+
+    public PokemonDB getTeam(String uid) {
+        return mongoTemplate.findOne(Query.query(Criteria.where("users").is(uid)),PokemonDB.class);
     }
 }

@@ -6,7 +6,6 @@ import com.registrar.registrar2.model.Pokemon.Moves;
 import com.registrar.registrar2.model.Pokemon.Pokemon;
 import com.registrar.registrar2.service.PokemonService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 @CrossOrigin(origins= {"https://cchiu28-pokedex.netlify.app/","http://localhost:3000"})
 public class PokemonController {
     private PokemonService pokemonService;
-    private MongoTemplate mongoTemplate;
 
     @PostMapping("/pokemon/{pokemon}")
     public Pokemon getPokemon(@PathVariable String pokemon) {

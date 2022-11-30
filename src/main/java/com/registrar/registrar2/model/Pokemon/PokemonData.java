@@ -2,7 +2,6 @@ package com.registrar.registrar2.model.Pokemon;
 
 import lombok.Getter;
 import lombok.ToString;
-
 import java.util.ArrayList;
 
 @Getter
